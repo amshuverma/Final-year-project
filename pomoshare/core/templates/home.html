@@ -1,0 +1,228 @@
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Pomoshare</title>
+  </head>
+  <body>
+    <div
+      class="relative w-screen h-screen flex justify-between items-center p-2"
+    >
+      <header
+        class="
+          rounded-xl
+          w-60
+          h-full
+          flex flex-col
+          justify-start
+          items-start
+          bg-blue-500
+          sticky
+          top-2
+          left-2
+        "
+      >
+        <div class="w-full flex flex-row justify-center items-center mt-14">
+          <h3 class="text-xl font-semibold text-white mr-10">Pomoshare</h3>
+        </div>
+        <div class="flex justify-center items-center w-full mt-16">
+          <nav
+            class="
+              flex flex-col
+              text-blue-200
+              justify-start
+              items-start
+              align-left
+              mr-4
+              bg-blue-
+            "
+          >
+            <a class="flex mb-7 cursor-pointer w-28 h-7 hover:text-blue-900">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                />
+              </svg>
+              Home</a
+            >
+            <a class="flex mb-7 cursor-pointer hover:text-blue-900"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+                />
+              </svg>
+              Leaderboard</a
+            >
+            <a class="flex mb-7 cursor-pointer hover:text-blue-900"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                />
+              </svg>
+              Friends</a
+            >
+          </nav>
+        </div>
+      </header>
+      <main
+        class="w-1/2 h-full flex flex-1 flex-col justify-start items-center"
+      >
+        <div
+          class="
+            h-1/4
+            w-4/5
+            mt-4
+            rounded-xl
+            bg-gray-200
+            py-6
+            px-10
+            flex flex-col
+            justify-between
+          "
+        >
+          <div class="divide-y">
+            <div
+              class="
+                text-xs
+                flex
+                justify-center
+                items-center
+                w-32
+                h-5
+                text-gray-700
+                bg-blue-300
+                mb-2
+                rounded-2xl
+              "
+            >
+              <p>11th of March, 2021</p>
+            </div>
+            <h3 class="text-xl text-gray-700 font-medium">
+              Howdy, Jack. What do you want to accomplish today?
+            </h3>
+            <p class="text-gray-500">Start a timer and get working.</p>
+          </div>
+          <button
+            class="bg-blue-500 text-blue-50 w-24 h-10 rounded hover:bg-blue-600"
+          >
+            Starttt!
+          </button>
+        </div>
+        <div class="mt-8 w-4/5 flex flex-col justify-center items-center">
+          <h3
+            class="
+              justify-self-start
+              self-start
+              font-medium
+              text-md text-gray-500
+            "
+          >
+            See what your friends are doing
+          </h3>
+          {% for post in posts %}
+          <div class="w-full">
+            <div
+              class="
+                h-56
+                w-full
+                mt-3
+                rounded-xl
+                bg-gray-200
+                py-5
+                flex
+                justify-between
+              "
+            >
+              <div
+                class="basis-24 flex flex-col items-center justify-start h-full"
+              >
+                <img class="w-14 h-14 rounded-full bg-blue-300" />
+              </div>
+              <div class="basis-11/12 h-full flex flex-col justify-between">
+                <div>
+                  <p class="text-xs text-gray-400">Feb 12, 2021</p>
+                  <h3 class="text-gray-700 text-md font-bold">
+                    {{ post.task_completed_by.profile.first_name }} {{ post.task_completed_by.profile.last_name }}
+                  </h3>
+                  <p class="text-gray-500 text-xs">@{{ post.task_completed_by.profile.username }}</p>
+                </div>
+                <div class="text-xl -mt-6 font-normal text-gray-500">
+                  <p>Just completed {{ post.time|intdiv:60 }} minutes of {{ post.task }}</p>
+                </div>
+                <div class="flex items-center -mb-5">
+                  <img class="w-4 h-4 bg-blue-300 rounded-full" />
+                  <p class="text-xs text-gray-500 ml-2">
+                    X men and 25 others like this.
+                  </p>
+                </div>
+                <div class="flex">
+                  <p
+                    class="
+                      bg-blue-500
+                      px-3
+                      py-2
+                      text-sm
+                      flex
+                      justify-center
+                      items-center
+                      rounded
+                      text-white
+                    "
+                  >
+                    Like
+                  </p>
+                  <p
+                    class="
+                      bg-blue-500
+                      px-2
+                      py-1
+                      ml-2
+                      text-sm
+                      flex
+                      justify-center
+                      items-center
+                      rounded
+                      text-white
+                    "
+                  >
+                    Comment
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </main>
+      <aside class="w-1/4">
+        <div>
+          <img />
+          <p>Jack</p>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>
