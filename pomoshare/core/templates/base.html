@@ -1,0 +1,46 @@
+{% load mathfilters %}
+{% load tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+      <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
+    <title>Pomofocus</title>
+</head>
+<body class="relative">
+
+    <!-- Navigation bar -->
+    <nav x-data = "{dropdown: false}" class="main__nav sticky top-0 shadow-sm left-0 flex justify-center items-center py-4 gap-[21rem] h-[64px] w-full">
+        <div class="logo flex justify-center items-center text-gray-800 ">pomoshare</div>
+        <div class="links text-sm flex flex-row justify-center items-center">
+            <a hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" hx-headers='{"Profile":"Hello"}' class="link__home cursor-pointer rounded-full flex justify-around align-baseline mr-16 hover:bg-btn py-1 px-4 ">
+                🏡 Home
+            </a>
+            <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer rounded-full flex justify-around align-baseline mr-16 hover:bg-btn py-1 px-4">
+                📈 Leaderboard
+            </a>
+            <a href="" class="link__friends p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-2 px-4">
+                👬 Friends
+            </a>
+        </div>
+        {% include './partials/homepage/dropdown.html' %}
+    </nav>
+
+<!--     Main section-->
+    <main class="main-homepage transition ease-in-out delay-150 overflow-auto flex justify-center w-full">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <script src="{% static 'js/homepage/modal.js' %}"></script>
+    <script src="{% static 'js/homepage/input.js' %}"></script>
+    <script src="{% static 'js/homepage/pomodoro.js' %}"></script>
+</body>
+</html>

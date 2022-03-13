@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Post, Profile, Task
+from django.contrib.auth.models import User
+from .models import Profile, Post, ModifiedUserModel, Comments
 
-# Register your models here.
-admin.site.register(Post)
+admin.site.register(ModifiedUserModel)
 admin.site.register(Profile)
-admin.site.register(Task)
+admin.site.register(Post)
+admin.site.register(Comments)
+

@@ -1,0 +1,36 @@
+:root{
+    --color-primary: #D6D4A1;
+    --color-shadow: #bdbb74;
+    --color-primary-border: #A3A03D;
+    --color-btn-pressed: #C4D8C4;
+    --color-btn-shadow: rgb(93, 108, 93);
+    --color-btn: #99A799;
+    --color-text-dark: #141313;
+    --color-container: #F7F6E5;
+    --color-pomodoro-primary: #A4B3A4;
+    --color-pomodoro-secondary: #F7F6ED;
+    --color-pomodoro-text: #575641;
+    --color-pomodoro-options: #BECEBE;
+    --color-red-primary: #ED7A7A;
+    --color-red-border: #C63535;
+    --color-pomodoro-border: #7E967E;
+    --color-pomodoro-checked: #5D815E;
+
+}
+
+*{
+    user-select: none;
+    font-family: Inter;
+}
+
+.links{
+    color: var(--color-text-dark);
+}
+
+.main-homepage{
+    height: calc(100vh - 64px);
+    background-color: #F7F7F7;
+    font-family: 'Inter';
+    z-index: -30;
+}
+

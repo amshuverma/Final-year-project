@@ -1,0 +1,27 @@
+
+<div class="main__sidebar-leaderboard flex flex-col py-6 px-7 rounded-2xl w-full">
+    <div class="leaderboard__header flex mb-3 justify-between items-baseline">
+        <p class="text-md text-primary font-medium mt-1">🏆 Today's leaderboard</p>
+        {% if leaderboard %}
+        <a href="#" class="leaderboard__see_all w-14 h-5 text-xs">See all</a>
+        {% endif %}
+    </div>
+    {% if leaderboard %}
+    <div class="users flex flex-col w-full h-full">
+        {% #leaderboard-card name=leaderboard.0.get_fullname country=leaderboard.0.profile.country image=leaderboard.0.profile.image.url %}
+            {% badge-small color="#ED794E" number="#1" %}
+        {% /leaderboard-card %}
+
+        {% #leaderboard-card name=leaderboard.1.get_fullname country=leaderboard.1.profile.country image=leaderboard.1.profile.image.url %}
+            {% badge-small color="#848484" number="#2" %}
+        {% /leaderboard-card %}
+
+        {% #leaderboard-card name=leaderboard.2.get_fullname country=leaderboard.2.profile.country image=leaderboard.2.profile.image.url %}
+            {% badge-small color="#488e48" number="#3" %}
+        {% /leaderboard-card %}
+    </div>
+    {% else %}
+        <p class='text-sm mt-2 text-gray-800 opacity-80'>There isn't anybody on the leaderboard yet. Why don't you be one?</p>
+        <div class='mt-4'>{% button onclick='data.overlay = true' text="Let's do it" %}</div>
+    {% endif %}
+</div>

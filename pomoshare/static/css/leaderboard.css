@@ -1,0 +1,22 @@
+@import url('index.css');
+
+.btn__location-world, .btn__location-country {
+    box-shadow: 0 3px var(--color-btn-shadow);
+}
+
+.leaderboard__top3 {
+    height: 370px;
+    width: 74%;
+}
+
+.leaderboard__table-wrapper {
+    width: 73%;
+}
+
+.leaderboard__table tr:nth-child(odd) {
+    background: #EAE9D3;
+}
+
+.btn__location-world:hover, .btn__location-country:hover {
+    transform: translate(-0%, 3%);
+}

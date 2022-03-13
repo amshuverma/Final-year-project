@@ -1,0 +1,7 @@
+components:
+  badge-large: "components/badge-large.html"
+  badge-small: "components/badge-small.html"
+  card: "components/card.html"
+  post: "components/post.html"
+  leaderboard-card: "components/leaderboard-card.html"
+  button: "components/button.html"

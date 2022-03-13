@@ -1,0 +1,31 @@
+<div class="main__sidebar-profile bg-white pb-6 flex flex-col items-center  w-full mb-[20px] border-[1.5px]">
+    <div class="profile__image-container p-0 m-0 w-full flex flex-col items-center">
+        <div class="profile__cover border-b h-[68px] w-full">
+        </div>
+        <div class="profile__image w-20 h-20 -mt-10">
+            <img src="{{ profile.image.url }}" class="rounded-full w-20 h-20 border-[3px] border-gray-800">
+        </div>
+    </div>
+    <div class="user__status py-1 mt-3 px-[4px] flex justify-between items-center w-[72px] h-6 rounded-full border-2 border-primary bg-primary ">
+        <div class="h-4 w-4 border-2 border-gray-800 rounded-full bg-green-400"></div>
+        <p class="text-[13px]">Online</p>
+    </div>
+    <div class="username__status flex flex-col gap-2 justify-center mt-2.5 items-center py-3">
+        <div class="Username">
+            <p class="text-xl font-medium text-gray-700">{{profile.get_full_name}}</p>
+        </div>
+        <div class="Status w-2/3 text-center">
+            <p class="text-base font-normal text-gray-500">{{"The answer is 42, said deep thought."|slice:":90"}}</p>
+        </div>
+    </div>
+    <div class="followers flex mt-2.5 gap-5 rounded-xl px-5 py-1">
+        <div class="flex flex-col justify-center items-center px-2 py-2 flex-auto">
+            <p class="block text-2xl font-medium">{{friends}}</p>
+            <p class="block text-xs">Friends</p>
+        </div>
+        <div class="flex flex-col justify-center px-2 py-2 items-center flex-auto">
+            <p class="block text-2xl font-medium">{{post_count}}</p>
+            <p class="block text-xs">Posts</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="flex w-full h-16 justify-between items-center ">
+    <div class="users__img w-[49px] h-[49px]">
+        <img src="{{ image }}" class="w-[49px] h-[49px] rounded-full drop-shadow-2xl border border-gray-800" alt="">
+    </div>
+    <div class="name__country flex flex-col flex-grow pl-3 items-start">
+        <p class="text-md font-normal text-primary"> {{ name }} </p>
+        <p class="text-xs opacity-80 font-normal text-primary">{{ country }}</p>
+    </div>
+    <div class="flex justify-center items-center">
+        <div class="h-10 w-10 flex items-center justify-end">
+            {{ children }}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+@import url('./index.css');
+
+
+.text-primary {
+    color: var(--color-text-dark);
+}
+
+.border-primary {
+    border-color: var(--color-primary-border);
+}
+
+.dropdown {
+    background-color: var(--color-primary);
+    /* border: 2px solid var(--color-primary-border); */
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/*.triangle {*/
+/*    z-index: -1;*/
+/*}*/
+
+.main__sidebar-leaderboard,
+.main__nav,
+.profile__cover,
+.followers,
+.user__status,
+.create__post{
+    background-color: var(--color-primary);
+}
+
+.followers{
+    color: var(--color-text-dark);
+}
+
+/* Pomodoro */
+
+.pomodoro {
+    background: var(--color-pomodoro-primary);
+    border: 2px solid var(--color-pomodoro-border);
+}
+
+.btn__pomodoro-close{
+    background: var(--color-red-primary);
+    border: 2px solid var(--color-red-border);
+    box-shadow: 1px 1px 0px var(--color-red-border);
+}
+
+.pomodoro__option {
+    background: var(--color-pomodoro-options);
+    color: var(--color-pomodoro-text);
+}
+
+.pomodoro__option-item1 {
+    background: var(--color-pomodoro-secondary);
+}
+
+.pomodoro__box-main, .pomodoro__box-top, .pomodoro__box-middle {
+    background: var(--color-pomodoro-secondary);
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono';
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.pomodoro__box-main p{
+    font-family: 'IBM Plex Mono';
+    font-size: 65px;
+    color: var(--color-pomodoro-text);
+}
+
+.pomodoro__box-divider {
+    font-family: 'IBM Plex Mono';
+    font-size: 45px;
+    color: var(--color-pomodoro-text);
+}
+
+.pomodoro__box-input-minutes, .pomodoro__box-input-seconds {
+    text-align: right;
+    font-family: 'IBM Plex Mono';
+    font-size: 70px;
+    font-weight: 500;
+    color: var(--color-pomodoro-text);
+    background: var(--color-pomodoro-secondary);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  text-align: right;
+}
+
+.task{
+    background-color: var(--color-pomodoro-secondary);
+    color: var(--color-pomodoro-text);
+    box-sizing: border-box;
+    cursor: pointer;
+    border: 2px solid rgb(93, 129, 94, 0);
+}
+
+label .task__radio-btn{
+    display: none;
+}
+
+.task svg {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.task__radio-btn:checked + .task > svg {
+    opacity: 1;
+}
+
+.task__radio-btn:checked + svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.task__radio-btn:checked + .task {
+    border: 2px solid var(--color-pomodoro-checked);
+}
+
+.pomodoro__start {
+    background: var(--color-pomodoro-secondary);
+    border: 2px solid var(--color-pomodoro-checked);
+    box-shadow: 0px 4px var(--color-pomodoro-checked);
+}
+
+.pomodoro__start-pressed {
+    background: var(--color-pomodoro-secondary);
+    border: 2px solid var(--color-pomodoro-checked);
+    box-shadow: 0px 2px var(--color-pomodoro-checked);
+}
+
+
+/* Overlay */
+
+.overlay {
+    background: rgb(247, 246, 229, 0.95);
+    z-index: 999999999;
+}
+
+.main__content{
+    width: 71%;
+}
+
+.main__sidebar {
+    width: 29%;
+}
+
+.main__sidebar-profile {
+    border-radius: 1rem;
+    border-color: var(--color-primary-border);
+}
+
+.my_profile{
+    border-radius: 20px;
+    background-color: var(--color-btn);
+    border-color: var(--color-btn-shadow);
+    border-width: 2px;
+    box-shadow: 0 2px var(--color-btn-shadow);
+    color: white;
+}
+
+
+
+.profile__cover {
+    border-radius: 0.85rem 0.85rem 0 0;
+    border-color: var(--color-primary-border);
+
+}
+
+.leaderboard__see_all {
+    background-color: var(--color-btn);
+    border-width: 2px;
+    border-color: var(--color-btn-shadow);
+    box-shadow: 0 2px var(--color-btn-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    color: white;
+}
+
+/* .main__sidebar-leaderboard {
+    transform: skewY(2deg), skewX(2deg);
+
+} */
+
+.posts{
+    width: 63%;
+    padding: 0 20px;
+}
+
+.post {
+    padding-bottom: 2rem;
+    padding-top: 1.7rem;
+}
+
+
+.start__btn {
+    background-color: var(--color-btn);
+    border-color: var(--color-btn-shadow);
+    box-shadow: var(--color-btn-shadow) 0px 3px;
+}
+
+
+
+/* .post {
+    box-shadow: 4px 1px 200px rgba(212, 210, 139, 0.1);
+} */
+
+
+/*                     */
+/* Leaderboard section */
+/*                     */
+

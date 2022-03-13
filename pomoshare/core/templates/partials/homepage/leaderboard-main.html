@@ -1,0 +1,196 @@
+{% load mathfilters %}
+<div class="main__content mt-5 flex justify-center">
+            <div class="leaderboard__container w-full flex flex-col mt-2 items-center">
+                <div class="leaderboard__title flex flex-col items-center z-10">
+                    <h1 class="text-md text-btn-shadow mb-2 font-normal">
+                        🎉 Today's Leaderboard 🎉
+                    </h1>
+                    <div class="btn__location mt-2 px-4 py-4 w-[305px] flex justify-between items-center rounded-full bg-container border-2 border-primary-border">
+                        <button type="submit" hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-vals='{"country":"{{ request.user.profile.country }}"}' class="btn__location-world hover:shadow-none transition-all duration-200 bg-btn rounded-full px-8 h-10 drop-shadow-btn-large text-white text-sm border-2 border-btn-shadow">
+                            World
+                        </button>
+                        <button type="submit" hx-get="{% url 'leaderboard' country=request.user.profile.country%}" hx-target=".main-homepage" hx-swap="innerHTML" hx-push-url="true" hx-trigger="click" class="btn__location-country hover:shadow-none transition-all duration-200 bg-btn border-2 border-btn-shadow drop-shadow-btn-large flex justify-center items-center rounded-full px-8 h-10 text-sm text-white">
+                            Your country
+                        </button>
+                    </div>
+                </div>
+                <div class="px-10 pt-11 leaderboard__top3 flex justify-between items-center -mt-8 rounded-3xl bg-container border-2 border-primary-border">
+
+                    <!-- Top 2 -->
+
+                    <div class="flex items-end h-full w-[500px] ">
+                        <div class="h-full w-full flex flex-col items-center justify-end pb-10 ">
+                            <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
+                                <img class="w-14 h-14 rounded-full" src="{{ top_3.1.profile.image.url }}" alt="">
+                            </div>
+                            <div class="bg-primary h-40 flex flex-col justify-between items-start relative rounded-xl py-5 px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="triangle absolute text-gray-700 -top-3 left-1/2 transform -translate-x-1/2" width="24" height="24.684" viewBox="0 0 24 24.684">
+                                    <path id="Polygon_4" data-name="Polygon 4" d="M9.3,5.55a3,3,0,0,1,5.4,0L21.9,20.372a3,3,0,0,1-2.7,4.312H4.794a3,3,0,0,1-2.7-4.312Z" fill="#d6d4a1"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-6 -right-3" width="42.691" height="42.691" viewBox="0 0 42.691 42.691">
+                                    <g id="Group_121" data-name="Group 121" transform="translate(-1536 -774)">
+                                      <path id="Union_5" data-name="Union 5" d="M16.04,40.738a8.172,8.172,0,0,0-4.655-1.93,8.178,8.178,0,0,1-7.5-7.5A8.193,8.193,0,0,0,1.954,26.65a8.176,8.176,0,0,1,0-10.609,8.193,8.193,0,0,0,1.929-4.654,8.179,8.179,0,0,1,7.5-7.5,8.179,8.179,0,0,0,4.655-1.93,8.183,8.183,0,0,1,10.61,0,8.192,8.192,0,0,0,4.658,1.93,8.177,8.177,0,0,1,7.5,7.5,8.183,8.183,0,0,0,1.932,4.654,8.183,8.183,0,0,1,0,10.609A8.183,8.183,0,0,0,38.807,31.3a8.177,8.177,0,0,1-7.5,7.5,8.185,8.185,0,0,0-4.658,1.93,8.181,8.181,0,0,1-10.61,0Z" transform="translate(1536 774)" fill="#848484"/>
+                                      <text id="_3" data-name="#3" transform="translate(1556 802)" fill="#fff" font-size="16" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="400"><tspan x="-8.896" y="0">#2</tspan></text>
+                                    </g>
+                                  </svg>
+                                <div class="leaderboard__top3-info pl-4 flex flex-col items-start justify-center w-full pb-3 pt-1">
+                                    <p class="font-semibold text-sm mb-1 text-leaderboard-info">🎓 {{ top_3.1.get_fullname }}</p>
+                                    <p class="font-normal text-sm text-leaderboard-info">📍 {{ top_3.1.profile.country }}</p>
+                                </div>
+                                <div class="flex w-full items-end ">
+                                    <div class=" px-2 flex flex-col justify-end items-start pl-3 ">
+                                        <p class="text-xs font-bold">
+                                            Total time
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            {{ top_3.1.total_time|intdiv:3600 }} <span class="text-xs font-normal">Hours</span>
+                                        </p>
+                                    </div>
+                                    <div class=" px-2 flex  flex-col justify-end items-start pl-7 ">
+                                        <p class="text-xs font-bold">
+                                            Streak
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            2 <span class="text-xs font-normal">Days</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 1 -->
+
+                    <div class="flex items-end h-full w-[500px] ">
+                        <div class="h-full w-full flex flex-col items-center justify-end pb-16 ">
+                            <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
+                                <img class="w-14 h-14 rounded-full" src="https://bit.ly/kent-c-dodds" alt="">
+                            </div>
+                            <div class="bg-primary h-40 flex flex-col justify-between items-start relative rounded-xl py-5 px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="triangle absolute text-gray-700 -top-3 left-1/2 transform -translate-x-1/2" width="24" height="24.684" viewBox="0 0 24 24.684">
+                                    <path id="Polygon_4" data-name="Polygon 4" d="M9.3,5.55a3,3,0,0,1,5.4,0L21.9,20.372a3,3,0,0,1-2.7,4.312H4.794a3,3,0,0,1-2.7-4.312Z" fill="#d6d4a1"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-6 -right-3" width="42.691" height="42.691" viewBox="0 0 42.691 42.691">
+                                    <g id="Group_121" data-name="Group 121" transform="translate(-1536 -774)">
+                                      <path id="Union_5" data-name="Union 5" d="M16.04,40.738a8.172,8.172,0,0,0-4.655-1.93,8.178,8.178,0,0,1-7.5-7.5A8.193,8.193,0,0,0,1.954,26.65a8.176,8.176,0,0,1,0-10.609,8.193,8.193,0,0,0,1.929-4.654,8.179,8.179,0,0,1,7.5-7.5,8.179,8.179,0,0,0,4.655-1.93,8.183,8.183,0,0,1,10.61,0,8.192,8.192,0,0,0,4.658,1.93,8.177,8.177,0,0,1,7.5,7.5,8.183,8.183,0,0,0,1.932,4.654,8.183,8.183,0,0,1,0,10.609A8.183,8.183,0,0,0,38.807,31.3a8.177,8.177,0,0,1-7.5,7.5,8.185,8.185,0,0,0-4.658,1.93,8.181,8.181,0,0,1-10.61,0Z" transform="translate(1536 774)" fill="#ED794E"/>
+                                      <text id="_3" data-name="#3" transform="translate(1556 802)" fill="#fff" font-size="16" font-weight="400"><tspan x="-8.896" y="0">#1</tspan></text>
+                                    </g>
+                                  </svg>
+                                <div class="leaderboard__top3-info pl-4 flex flex-col items-start justify-center w-full pb-3 pt-1">
+                                    <p class="font-semibold text-sm mb-1 text-leaderboard-info">🎓 Zohn Zeratsky</p>
+                                    <p class="fornt-normal text-sm text-leaderboard-info">📍 China</p>
+                                </div>
+                                <div class="flex w-full items-end ">
+                                    <div class=" px-2 flex flex-col justify-end items-start pl-3 ">
+                                        <p class="text-xs font-bold">
+                                            Total time
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            2 <span class="text-xs font-normal">Hours</span>
+                                        </p>
+                                    </div>
+                                    <div class=" px-2 flex  flex-col justify-end items-start pl-7 ">
+                                        <p class="text-xs font-bold">
+                                            Streak
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            2 <span class="text-xs font-normal">Days</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 3 -->
+
+                    <div class="flex items-end h-full w-[500px] ">
+                        <div class="h-full w-full flex flex-col items-center justify-end pb-10 ">
+                            <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
+                                <img class="w-14 h-14 rounded-full" src="https://bit.ly/kent-c-dodds" alt="">
+                            </div>
+                            <div class="bg-primary h-40 flex flex-col justify-between items-start relative rounded-xl py-5 px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="triangle absolute text-gray-700 -top-3 left-1/2 transform -translate-x-1/2" width="24" height="24.684" viewBox="0 0 24 24.684">
+                                    <path id="Polygon_4" data-name="Polygon 4" d="M9.3,5.55a3,3,0,0,1,5.4,0L21.9,20.372a3,3,0,0,1-2.7,4.312H4.794a3,3,0,0,1-2.7-4.312Z" fill="#d6d4a1"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-6 -right-3" width="42.691" height="42.691" viewBox="0 0 42.691 42.691">
+                                    <g id="Group_121" data-name="Group 121" transform="translate(-1536 -774)">
+                                      <path id="Union_5" data-name="Union 5" d="M16.04,40.738a8.172,8.172,0,0,0-4.655-1.93,8.178,8.178,0,0,1-7.5-7.5A8.193,8.193,0,0,0,1.954,26.65a8.176,8.176,0,0,1,0-10.609,8.193,8.193,0,0,0,1.929-4.654,8.179,8.179,0,0,1,7.5-7.5,8.179,8.179,0,0,0,4.655-1.93,8.183,8.183,0,0,1,10.61,0,8.192,8.192,0,0,0,4.658,1.93,8.177,8.177,0,0,1,7.5,7.5,8.183,8.183,0,0,0,1.932,4.654,8.183,8.183,0,0,1,0,10.609A8.183,8.183,0,0,0,38.807,31.3a8.177,8.177,0,0,1-7.5,7.5,8.185,8.185,0,0,0-4.658,1.93,8.181,8.181,0,0,1-10.61,0Z" transform="translate(1536 774)" fill="#488e48"/>
+                                      <text id="_3" data-name="#3" transform="translate(1556 802)" fill="#fff" font-size="16" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="400"><tspan x="-8.896" y="0">#3</tspan></text>
+                                    </g>
+                                  </svg>
+                                <div class="leaderboard__top3-info pl-4 flex flex-col items-start justify-center w-full pb-3 pt-1">
+                                    <p class="font-semibold text-sm mb-1 text-leaderboard-info">🎓 Zohn Zeratsky</p>
+                                    <p class="fornt-normal text-sm text-leaderboard-info">📍 China</p>
+                                </div>
+                                <div class="flex w-full items-end ">
+                                    <div class=" px-2 flex flex-col justify-end items-start pl-3 ">
+                                        <p class="text-xs font-bold">
+                                            Total time
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            2 <span class="text-xs font-normal">Hours</span>
+                                        </p>
+                                    </div>
+                                    <div class=" px-2 flex  flex-col justify-end items-start pl-7 ">
+                                        <p class="text-xs font-bold">
+                                            Streak
+                                        </p>
+                                        <p class="text-3xl font-bold">
+                                            2 <span class="text-xs font-normal">Days</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard table -->
+
+                <div class="leaderboard__table-wrapper mt-4">
+                    <table class="leaderboard__table w-full border-collapse">
+                        {% for other in qset %}
+                        <tr height="50%" class="px-3 mt-3 py-7">
+                            <td class="leaderboard__table-rank pl-6 font-normal text-gray-800">
+                                #{{ forloop.counter|add:3 }}
+                            </td>
+                            <td class="leaderboard__table-image">
+                                <img class="w-16 h-16 border-2 border-gray-800 rounded-full" src="{{ other.profile.image.url }}" alt="profile picture">
+                            </td>
+                            <td class="leaderboard-table-info">
+                                <div class="flex flex-col py-6 text-leaderboard-info">
+                                    <span class="text-sm mb-1">
+                                        🎓 {{other.get_fullname}}
+                                    </span>
+                                    <span class="text-sm">
+                                        📍 {{ other.profile.country }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="leaderboard__table-score">
+                                <div class="hours flex flex-col">
+                                    <span class="font-bold text-xs mb-1">
+                                        Total hours
+                                    </span>
+                                    <span class="text-2xl font-bold">
+                                        {{ other.total_time|intdiv:3600 }} <span class="text-xs font-normal text-gray-600">Hours</span>
+                                    </span>
+                                </div>
+                            </td>
+                            {% comment %} <td class="leaderboard__table-score">
+                                <div class="streak flex flex-col">
+                                    <span class="font-bold text-xs mb-1">
+                                        Streak
+                                    </span>
+                                    <span class="text-2xl font-bold">
+                                        2 <span class="text-xs font-normal text-gray-600">Days</span>
+                                    </span>
+                                </div>
+                            </td> {% endcomment %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
