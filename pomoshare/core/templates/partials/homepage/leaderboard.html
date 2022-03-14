@@ -7,19 +7,25 @@
         {% endif %}
     </div>
     {% if leaderboard %}
+    {% for user in leaderboard %}
     <div class="users flex flex-col w-full h-full">
         {% #leaderboard-card name=leaderboard.0.get_fullname country=leaderboard.0.profile.country image=leaderboard.0.profile.image.url %}
-            {% badge-small color="#ED794E" number="#1" %}
+            {% badge-small badge_type="3" %}
         {% /leaderboard-card %}
 
+        {% if leaderboard.1 %}
         {% #leaderboard-card name=leaderboard.1.get_fullname country=leaderboard.1.profile.country image=leaderboard.1.profile.image.url %}
             {% badge-small color="#848484" number="#2" %}
         {% /leaderboard-card %}
+        {% endif %}
 
+        {% if leaderboard.2 %}
         {% #leaderboard-card name=leaderboard.2.get_fullname country=leaderboard.2.profile.country image=leaderboard.2.profile.image.url %}
             {% badge-small color="#488e48" number="#3" %}
         {% /leaderboard-card %}
+        {% endif %}
     </div>
+    {% endfor %}
     {% else %}
         <p class='text-sm mt-2 text-gray-800 opacity-80'>There isn't anybody on the leaderboard yet. Why don't you be one?</p>
         <div class='mt-4'>{% button onclick='data.overlay = true' text="Let's do it" %}</div>

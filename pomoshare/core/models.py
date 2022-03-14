@@ -15,19 +15,18 @@ class ModifiedUserModel(AbstractUser):
     
     @property
     def get_streak(self):
-        user = self
         total_streak = 0
-        time_del = 0
-        run_count = True
-        today = timezone.now()
-        while run_count:
-            posted_date = today - timedelta(days=time_del)
-            post = Post.objects.filter(completion_date = posted_date).exists()
+        run = True
+        today = timezone.now().replace(hour=0, minute=0, second=0)
+        yesterday = today - timedelta(days=1)
+        while run:
+            post = Post.objects.filter(completed_by = self).filter(completion_date__range = [yesterday, today]).exists()
             if post:
-                time_del += 1
+                today = yesterday
+                yesterday = yesterday - timedelta(days=1)
                 total_streak += 1
             else:
-                run_count = False
+                run = False
         return total_streak
 
 
@@ -131,12 +130,20 @@ class Post(models.Model):
         hours = time_difference / 3600
         days = time_difference / 86400
         if (minutes < 1) and (hours < 1) and (days < 1):
+            if int(time_difference) == 1:
+                return f"{int(time_difference)} second"
             return f"{int(time_difference)} seconds"
         elif (minutes >= 1) and (hours < 1) and (days < 1):
+            if int(minutes) == 1:
+                return f"{int(minutes)} minute"
             return f"{int(minutes)} minutes"
         elif (hours >= 1) and (days < 1):
+            if int(hours) == 1:
+                return f"{int(hours)} hour"
             return f"{int(hours)} hours"
         elif days >= 1:
+            if int(days) == 1:
+                return f"{int(days)} day"
             return f"{int(days)} days"
 
 

@@ -12,6 +12,7 @@
       <script src="https://unpkg.com/htmx.org@1.7.0"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/friends.css' %}">
     <title>Pomofocus</title>
 </head>
 <body class="relative">
@@ -26,7 +27,7 @@
             <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer rounded-full flex justify-around align-baseline mr-16 hover:bg-btn py-1 px-4">
                 📈 Leaderboard
             </a>
-            <a href="" class="link__friends p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-2 px-4">
+            <a hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
                 👬 Friends
             </a>
         </div>
@@ -42,5 +43,10 @@
     <script src="{% static 'js/homepage/modal.js' %}"></script>
     <script src="{% static 'js/homepage/input.js' %}"></script>
     <script src="{% static 'js/homepage/pomodoro.js' %}"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";
+        })
+    </script>
 </body>
 </html>

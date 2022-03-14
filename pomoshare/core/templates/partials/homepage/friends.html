@@ -1,0 +1,9 @@
+{% load mathfilters %}
+<div class="main__content mt-5 flex flex-col items-center ">
+    <div class="searchbar__container flex justify-center items-center px-2 py-5">
+        
+        <input type="text" hx-target=".friends__table"  hx-post="{% url "search-friends" %}" hx-trigger="keyup changed delay:200ms" hx-swap="outerHTML" name="username" placeholder="Search for people. Eg: Jack Grealish" class="searchbar__input focus:outline-none  pl-6 placeholder-gray-500 placeholder-opacity-40 w-[39rem] h-16 rounded-2xl border-2 border-primary-border bg-white">
+        <!-- <button type="" class="searchbar__btn text-white rounded-full px-6 border-2 border-btn-shadow py-4 bg-btn">Search</button> -->
+    </div>
+        {% include './friends-table.html' %}
+</div>

@@ -1,0 +1,35 @@
+
+    <table class="friends__table w-[39rem] border-collapse">
+
+        {% for friend in people %}
+        
+        <tr height="50%" class="px-3 mt-3 py-7 ">
+            <td class="leaderboard__table-rank pl-6 font-normal text-gray-800">
+                {{forloop.counter}}.
+            </td>
+            <td class="leaderboard__table-image w-20 ">
+                <img class="w-16 h-16 border-2 border-gray-800 rounded-full" src="{{friend.profile.image.url}}" alt="profile picture">
+            </td>
+            <td class="leaderboard-table-info">
+                <div class="flex flex-col py-6 text-leaderboard-info">
+                    <span class="text-sm mb-1">
+                        🎓 {{ friend.get_fullname }}
+                    </span>
+                    <span class="text-sm">
+                        📍 {{ friend.profile.country }}
+                    </span>
+                </div>
+            </td>
+            <td>
+                <div class="streak flex flex-col">
+                    <span class="font-bold text-xs mb-1 text-gray-700">
+                        Streak
+                    </span>
+                    <span class="text-2xl font-bold text-gray-700">
+                        {{ friend.get_streak }} <span class="text-xs font-normal text-gray-600">Days</span>
+                    </span>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>

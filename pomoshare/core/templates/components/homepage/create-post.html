@@ -1,0 +1,12 @@
+<div class="create__post flex h-[120px] rounded-2xl px-3.5">
+    <div class="create__post-profile w-28 h-full flex justify-center items-center rounded-l-2xl">
+        <img src="{{image}}" alt="Profile" class="w-20 h-20 rounded-full">
+    </div>
+    <div class="flex flex-col flex-1 justify-between items-start mr-2 py-6">
+        <p class="greeting text-md font-normal text-primary text-sm"> 👋  Howdy, John! Let’s check off some of your todos.</p>
+        {% #button-large click="data.overlay = true" %}
+            {% play-icon %}
+            Start pomodoro
+        {% /button-large %}
+    </div>
+</div>

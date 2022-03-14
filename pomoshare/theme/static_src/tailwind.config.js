@@ -54,10 +54,15 @@ module.exports = {
             'leaderboard-info': '#646464',
             'text-dark': '#141313',
             'container': '#F7F6E5',
+            'purple': {
+                2: "#363CB5",
+                1: "#7B7FE8",
+            },
             },
           dropShadow:{
-            'btn-large': '0 2px 0 rgba(93, 108, 93, 1)',
-            'btn-small': '0 3px 0 rgba(93, 108, 93, 1)',
+            'btn-small': '0 2px 0 rgba(93, 108, 93, 1)',
+            'btn-large': '0 3px 0 rgba(93, 108, 93, 1)',
+            'btn-pending': '0 2px rgba(54, 60, 181, 1)',
           },
             boxShadow:{
                 'custom': '0px 1px 33px rgba(189, 187, 116, 0.15)'

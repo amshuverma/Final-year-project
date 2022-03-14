@@ -2,7 +2,7 @@ from multiprocessing import context
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification
-from django.db.models import Sum, Aggregate
+from django.db.models import Sum, Aggregate, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 import datetime
@@ -25,9 +25,6 @@ def homepage(request):
             context['friends'] = user.profile.friends.count()
         context['post_count'] = user.posts.count()
         if request.htmx:
-            meta = request.META
-            for items in meta.items():
-                print(items)
             return render(request, 'partials/homepage/home-main.html', context)
         return render(request, 'pages/home.html', context)
 
@@ -49,6 +46,38 @@ def leaderboard(request, **kwargs):
     return render(request, 'pages/leaderboard.html', context)
 
 
+def friends(request):
+    user = request.user
+    people = ModifiedUserModel.objects.filter(profile__country=user.profile.country)
+    context = {'people':people}
+    result_type = "People you may know."
+    context['result_type'] = result_type
+    if request.htmx:
+        return render(request, 'partials/homepage/friends.html', context)
+    return render(request, 'pages/friends.html', context)
+
+
+def search_friends(request):
+    user = request.user
+    keyword = request.POST.get("username")
+    if request.htmx:
+        if keyword == "":
+            context["people"] = ModifiedUserModel.objects.filter(profile__country=user.profile.country)
+            context["result_type"] = "People you may know"
+        else:
+            people = ModifiedUserModel.objects.filter(Q(first_name__icontains=keyword) | Q(last_name__icontains=keyword) | Q(profile__country__icontains=keyword))
+            context = {"people":people, "result_type":"Search results"}
+        return render(request, 'partials/homepage/friends-table.html', context)
+
+
+def unfriend(request, pk):
+    user = request.user
+    friend = ModifiedUserModel.objects.get(pk=pk)
+    if friend in user.profile.friends.all():
+        user.profile.friends.remove(friend)
+        return render(request, 'components/')
+
+
 def send_friend_request(request, pk):
     sender = request.user
     receiver = ModifiedUserModel.objects.get(pk=pk)
@@ -56,6 +85,7 @@ def send_friend_request(request, pk):
     friend_request.save()
     notification_content = f"{sender.username} has sent you a friend request."
     notification = Notification(receiver=receiver, content=notification_content)
+
 
 def accept_friend_request(request, pk):
     friend_request = FriendRequest.objects.get(pk=pk)

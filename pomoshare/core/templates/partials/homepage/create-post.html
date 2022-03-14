@@ -1,10 +1,10 @@
 <div class="create__post flex h-[120px] rounded-2xl px-3.5">
     <div class="create__post-profile w-28 h-full flex justify-center items-center rounded-l-2xl">
-        <img src="{{profile.image.url}}" alt="Profile" class="w-20 h-20 rounded-full border-2 border-white">
+        <img src="{{profile.image.url}}" alt="Profile" class="w-20 h-20 rounded-full">
     </div>
     <div class="flex flex-col flex-1 justify-between items-start mr-2 py-6">
         <p class="greeting text-md font-normal text-primary text-sm"> 👋  Howdy, John! Let’s check off some of your todos.</p>
-        <button x-on:click="data.overlay = true" class="start__btn hover:shadow-none transition-all duration-200 text-white pointer text-md flex justify-center items-center w-52 h-10 bg-button rounded-full border-2">
+        <button x-on:click="data.overlay = true" class="start__btn hover:shadow-none transition-all duration-200 text-white pointer text-md flex justify-center items-center py-1.5 px-4 bg-button rounded-full border-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
             </svg>
