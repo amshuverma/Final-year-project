@@ -192,13 +192,13 @@ label .task__radio-btn{
 } */
 
 .posts{
-    width: 63%;
+    width: 60%;
     padding: 0 20px;
 }
 
 .post {
-    padding-bottom: 2rem;
-    padding-top: 1.7rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1rem;
 }
 
 
@@ -208,7 +208,9 @@ label .task__radio-btn{
     box-shadow: var(--color-btn-shadow) 0px 3px;
 }
 
-
+.scale-big{
+    scale: scale(2);
+}
 
 /* .post {
     box-shadow: 4px 1px 200px rgba(212, 210, 139, 0.1);

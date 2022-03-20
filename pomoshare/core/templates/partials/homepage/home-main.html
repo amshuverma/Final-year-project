@@ -1,3 +1,4 @@
+{% load static %}
 <div class="main__content pt-5 flex gap-1 justify-center" x-data = "{data: '', pomodoro:pomodoro()}" x-init="data = modal(), pomodoro.init()">
             {% include './pomodoro.html' %}
     <!-- Sidebar -->
@@ -7,14 +8,5 @@
     </div>
 
     <!-- Create and read posts -->
-    <div class="posts overflow-auto">
-            {% comment %} {% include './create-post.html' %} {% endcomment %}
-            {% create-post image=profile.image.url %}
-        <div class="all__posts  flex flex-col h-full w-full ">
-            {% for post in posts %}
-    <!--{% #post firstname="{{post.task}}" lastname = {{ post.task_completed_by.last_name }} username = {{ post.task_completed_by.username }} post_time = {{ post.task_completion_date }} task_time = {{ post.time_in_seconds }} task = {{ post.task }}  likes= {{ post.like_count }}  %} {% /post %}-->
-                {% post image=post.completed_by.profile.image.url fullname=post.completed_by.get_fullname username=post.completed_by.username post_time=post.posted_time emoji="🧠" task_time=post.time_in_minutes task=post.task firstname=post.completed_by.first_name likes=post.like_count comments=post.comment_count%}
-            {% endfor %}
-        </div>
-    </div>
+    {% include './post_list.html' %}
 </div>

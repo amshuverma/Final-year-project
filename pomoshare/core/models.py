@@ -103,7 +103,8 @@ class Post(models.Model):
 
     @property
     def like_count(self):
-        return self.likes.count()
+        count = self.likes.count()
+        return f"{count} like" if count <= 1 else f"{count} likes"
 
     @property
     def comment_count(self):
@@ -120,6 +121,10 @@ class Post(models.Model):
     @property
     def get_full_name(self):
         return f"{self.completed_by.first_name} {self.completed_by.last_name}"
+
+    @property
+    def get_username(self):
+        return self.completed_by.username
 
     @property
     def posted_time(self):

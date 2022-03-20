@@ -1,0 +1,7 @@
+{% load static %}
+<div class="mt-6 flex gap-2 items-center">
+    <input name="comment" type="text" placeholder="Type a comment" id="" class="comment-input pl-4 placeholder-gray-500 bg-container placeholder-opacity-40 w-full h-11 rounded-full border-2 border-primary-border">
+    <div class="comment-btn justify-self-end h-full" hx-include=".comment-input" hx-post={% url 'post comment' id %} hx-target=".comment-wrapper" hx-swap="outerHTML" hx-trigger="click">
+        {% #button %} Comment {% /button %}
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="like like-{{id}} hover:bg-container-blunt px-3 py-1 rounded-lg flex items-center justify-start cursor-pointer" hx-trigger="click" hx-target=".like-{{id}}" hx-post="{% url "like unlike" id %}" hx-swap="outerHTML">
+    {% if task_obj|has_liked:user %}
+        {% like-button type="liked"%}
+    {% else %}
+        {% like-button type="not_liked"%}
+    {% endif %}
+
+    <p class="text-gray-800 text-xs  ml-1">{{ likes }}</p>
+</div>

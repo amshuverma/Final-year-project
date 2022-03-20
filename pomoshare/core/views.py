@@ -1,7 +1,9 @@
 from multiprocessing import context
 from django.shortcuts import render
+from core.choices import hello, TASKS_DICT
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification
+from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification, Comments
 from django.db.models import Sum, Aggregate, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -15,9 +17,10 @@ def homepage(request):
     if user:
         profile = user.profile
         context['profile'] = profile
-        friend_list = user.profile.friends.all()
-        posts = Post.objects.filter(completed_by__in=friend_list).order_by('-completion_date')
+        friend_list = user.profile.friends.prefetch_related().all()
+        posts = Post.objects.filter(completed_by__in=friend_list).order_by('-completion_date').prefetch_related()
         context['posts'] = posts
+        context['tasks'] = TASKS_DICT
         start_time = timezone.now().replace(hour=0, minute=0, second=0)
         context['leaderboard'] = ModifiedUserModel.objects.filter(posts__completion_date__gt=start_time).annotate(total_time=Sum('posts__time_in_seconds')).order_by('-total_time')[:3]
         # Calculating the follow count
@@ -27,6 +30,63 @@ def homepage(request):
         if request.htmx:
             return render(request, 'partials/homepage/home-main.html', context)
         return render(request, 'pages/home.html', context)
+
+
+def post_list(request):
+    context = {}
+    user = get_object_or_404(ModifiedUserModel, pk=request.user.pk)
+    if user:
+        profile = user.profile
+        context['profile'] = profile
+        friend_list = user.profile.friends.prefetch_related().all()
+        posts = Post.objects.filter(completed_by__in=friend_list).order_by('-completion_date').prefetch_related()
+        context['posts'] = posts
+        context['tasks'] = TASKS_DICT
+        # Calculating the follow count
+        if request.htmx:
+            return render(request, 'partials/homepage/post_list.html', context)
+
+
+
+def post_details(request, id):
+    post = Post.objects.prefetch_related('completed_by').get(pk=id)
+    if post:
+        id = id
+        image = post.completed_by.profile.image.url
+        username = post.get_username
+        fullname = post.get_full_name
+        firstname = fullname.split()[0]
+        post_time = post.posted_time
+        task_time = post.time_in_minutes
+        task = post.task
+        emoji = TASKS_DICT[task]
+        user = request.user
+        comments = post.comments.all().order_by('-comment_date')
+        comment_count = post.comments.count()
+        like_count = post.likes.count()
+        like_count = f"{like_count} likes" if like_count >1 else f"{like_count} like"
+        context = ({'comments': comments, 'task_obj': post, 
+                    'like_count': like_count, 'user': user,
+                    'username': username, 'fullname': fullname,
+                    'firstname': firstname, 'post_time': post_time,
+                    'task_time': task_time, 'emoji':emoji,
+                    'comment_count':comment_count, 'image': image, 'id': id})
+        if request.htmx:
+            return render(request, 'components/homepage/post-details/post-details.html', context)
+
+
+def post_comment(request, id):
+    post = get_object_or_404(Post, pk=id)
+    if post:
+        comment = request.POST.get('comment')
+        print('comment')
+        print(comment)
+        user = request.user
+        Comments.objects.create(comment=comment, commented_by=user, post = post)
+        comments = post.comments.all().order_by('-comment_date')
+        context = {'comments':comments}
+        if request.htmx:
+            return render(request, 'components/homepage/post-details/post-comment-wrapper.html', context)
 
 
 def leaderboard(request, **kwargs):
@@ -68,6 +128,23 @@ def search_friends(request):
             people = ModifiedUserModel.objects.filter(Q(first_name__icontains=keyword) | Q(last_name__icontains=keyword) | Q(profile__country__icontains=keyword))
             context = {"people":people, "result_type":"Search results"}
         return render(request, 'partials/homepage/friends-table.html', context)
+
+
+def like_unlike(request, pk):
+    print("Received the request.")
+    user = request.user
+    post_id = pk
+    post = Post.objects.get(pk=post_id)
+    print("Got the post.")
+    if user in post.likes.all():
+        post.likes.remove(user)
+    else:
+        post.likes.add(user)
+    like_count = post.likes.count()
+    context = {'id': post_id, 'task_obj':post, 'user':request.user}
+    context['likes'] = f"{like_count} likes" if like_count > 1 else f"{like_count} like"
+    if request.htmx:
+        return render(request, 'components/wrappers/like-btn-wrapper.html', context)
 
 
 def unfriend(request, pk):

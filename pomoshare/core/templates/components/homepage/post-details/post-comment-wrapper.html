@@ -1,0 +1,15 @@
+<div class="comment-wrapper border-y p-2 border-gray-200 w-full flex h-[20rem] flex-col py-4 overflow-auto">
+    {% if comments %}
+    <p class="font-normal text-xs mb-3 font-medium">Comments</p>
+        {% for comment in comments %}
+            {% post-comment username=comment.commented_by.username comment=comment.comment image=comment.commented_by.profile.image.url %}
+        {% endfor %}
+    {% else %}
+        <div class="px-5  h-full w-full flex flex-col justify-center items-center text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd" />
+              </svg>
+            <p class="px-12 text-xl text-gray-300 mt-2">There aren't any comments yet. Would you like to cheer {{ username }} up with one?</p>
+        </div>
+    {% endif %}
+</div>

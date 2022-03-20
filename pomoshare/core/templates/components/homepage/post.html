@@ -1,0 +1,26 @@
+{% load tailwind_tags %}
+<div class="post mt-2.5 w-full shadow-custom rounded-2xl bg-white flex flex-col px-7">
+        <div class="username__and__image mb-3  flex items-center w-full">
+            <div class="h-17 w-17 flex justify-center rounded-full items-center ">
+                <img src="{{ image }}" class="rounded-full  h-16 w-16" alt="">
+            </div>
+            <div class="pl-2 flex h-[45px] flex-col flex-auto justify-between items-start p-0.5">
+                <p class="username text-md font-medium text-gray-800">
+                    {{ fullname }}
+                </p>
+                <p class="text-gray-500 text-xs mt-0.5">
+                    @{{ username }} • {{ post_time }} ago
+                </p>
+            </div>
+        </div>
+    <div class="Status text-[15.5px] font-normal pl-2  mb-6">
+       <p class="">Just completed {{ task_time }} minutes of {{ emoji }}<span class="font-medium text-md"> {{ task }}</span>. You go {{ firstname }}!</p>
+    </div>
+    <div class="Like__comment flex" x-data="{ liked: false }">
+        {% like-btn-wrapper id=id task_obj=task_obj user=user likes=likes %}
+        <div hx-get="{% url 'post details' id %}" hx-swap="innerHTML" hx-target="#posts" hx-trigger="click" class="ml-5 comment cursor-pointer hover:bg-container-blunt px-2 py-0.5 rounded-md flex items-center justify-start pl-3">
+            {% comment-button %}
+            <p class="comments text-gray-800 text-xs ml-1">{{ comments }} Comments</p>
+        </div>
+    </div>
+</div>

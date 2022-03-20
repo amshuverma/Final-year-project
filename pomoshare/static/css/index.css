@@ -34,3 +34,8 @@
     z-index: -30;
 }
 
+/* .main-homepage.htmx-swapping{
+    opacity:0;
+    transition: opacity 1s ease-in-out;
+} */
+

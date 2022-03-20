@@ -2,7 +2,7 @@
     <div class="leaderboard__header flex mb-3 justify-between items-baseline">
         <p class="text-md text-primary text-md font-medium mt-1">Today's leaderboard</p>
         {% if leaderboard_list %}
-        <a href="#" class="leaderboard__see_all w-14 h-5 text-xs">See all</a>
+        <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="leaderboard__see_all cursor-pointer hover:shadow-none transition hover:translate-y-0.5 w-14 h-5 text-xs">See all</a>
         {% endif %}
     </div>
     {% if leaderboard_list %}
@@ -13,6 +13,6 @@
     {% endfor %}
     {% else %}
         <p class='text-sm mt-2 text-gray-800 opacity-80'>There isn't anybody on the leaderboard yet. Why don't you be one?</p>
-        <div class='mt-4'>{% button onclick='data.overlay = true' text="Let's do it" %}</div>
+        <div class='mt-4'>{% #button onclick='data.overlay = true' %} Let's do it {% /button %}</div>
     {% endif %}
 </div>

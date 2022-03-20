@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     'mathfilters',
     'django_browser_reload',
     'django_extensions',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,6 +81,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+            'custom_tags':'core.template_tags.custom_tags'
+            },
             "builtins": ["slippers.templatetags.slippers"],
         },
     },

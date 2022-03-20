@@ -64,8 +64,4 @@ function validateSeconds(){
     }
 }
 
-//Test
-let jack = $(".post");
-jack.addEventListener('click', () => {
-    alert('This post has been clicked.')
-})
+

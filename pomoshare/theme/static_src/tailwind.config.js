@@ -54,6 +54,7 @@ module.exports = {
             'leaderboard-info': '#646464',
             'text-dark': '#141313',
             'container': '#F7F6E5',
+            'container-blunt': '#F1F0DF',
             'purple': {
                 2: "#363CB5",
                 1: "#7B7FE8",
