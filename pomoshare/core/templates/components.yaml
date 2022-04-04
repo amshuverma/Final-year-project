@@ -14,6 +14,11 @@ components:
   'post-comment': "components/homepage/post-details/post-comment.html"
   'post-details': "components/homepage/post-details/post-details.html"
   'post-comment-input': "components/homepage/post-details/post-comment-input.html"
+
+  info-pill: "components/profile/info-pill.html"
+  profile-post: "components/profile/profile-post.html"
+  time-pill: "components/profile/time-pill.html"
+  close-button: "components/buttons/close-button.html"
   
   badge: "components/misc/badge.html"
   badge-large: "components/badge-large.html"

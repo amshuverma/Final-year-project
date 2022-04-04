@@ -2,7 +2,7 @@
     {% create-post image=profile.image.url %}
 <div class="all__posts py-1 flex flex-col h-full w-full ">
     {% for post in posts %}
-        {% post id=post.id user=request.user task_obj=post emoji=tasks|get_item:post.task  image=post.completed_by.profile.image.url fullname=post.completed_by.get_fullname username=post.completed_by.username post_time=post.posted_time task_time=post.time_in_minutes task=post.task firstname=post.completed_by.first_name likes=post.like_count comments=post.comment_count%}
+        {% post id=post.id user=request.user user_id=post.completed_by.id task_obj=post emoji=tasks|get_item:post.task  image=post.completed_by.profile.image.url fullname=post.completed_by.get_fullname username=post.completed_by.username post_time=post.posted_time task_time=post.time_in_minutes task=post.task firstname=post.completed_by.first_name likes=post.like_count comments=post.comment_count%}
     {% endfor %}
 </div>
 </div>

@@ -1,0 +1,12 @@
+<div class="py-5 px-5 mt-3 shadow-custom rounded-2xl profile-box bg-white relative">
+    {% close-button position="top-4 right-4" %}
+    {% time-pill time=time %}
+    <p class="text-md text-gray-700 mt-3 ml-2">Completed {{ task_time }} minutes of {{ task }} {{ emoji }}</p>
+    <div class="Like__comment flex mt-3 -ml-1" x-data="{ liked: false }">
+        {% like-btn-wrapper id=id task_obj=task_obj user=user likes=like_count %}
+        <div class="ml-5 comment flex items-center justify-start">
+            {% comment-button %}
+            <p class="text-gray-800 text-xs ml-1">{{ comment_count }} Comments</p>
+        </div>
+    </div>
+</div>

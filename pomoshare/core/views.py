@@ -1,5 +1,9 @@
+from contextlib import redirect_stderr
+from http.client import ACCEPTED
 from multiprocessing import context
-from django.shortcuts import render
+import re
+from telnetlib import STATUS
+from django.shortcuts import render, redirect
 from core.choices import hello, TASKS_DICT
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -17,10 +21,13 @@ def homepage(request):
     if user:
         profile = user.profile
         context['profile'] = profile
-        friend_list = user.profile.friends.prefetch_related().all()
+        friend_list = user.profile.friends.prefetch_related('friends').all()
         posts = Post.objects.filter(completed_by__in=friend_list).order_by('-completion_date').prefetch_related()
         context['posts'] = posts
         context['tasks'] = TASKS_DICT
+        context['minutes'] = profile.pomodoro_minutes
+        context['seconds'] = profile.pomodoro_seconds
+        print(context['seconds'])
         start_time = timezone.now().replace(hour=0, minute=0, second=0)
         context['leaderboard'] = ModifiedUserModel.objects.filter(posts__completion_date__gt=start_time).annotate(total_time=Sum('posts__time_in_seconds')).order_by('-total_time')[:3]
         # Calculating the follow count
@@ -30,6 +37,22 @@ def homepage(request):
         if request.htmx:
             return render(request, 'partials/homepage/home-main.html', context)
         return render(request, 'pages/home.html', context)
+
+
+def get_pomodoro_time(request):
+    profile = request.user.profile
+    if profile:
+        minutes, seconds = profile.pomodoro_minutes, profile.pomodoro_seconds
+        context = {'minutes': minutes, 'seconds': seconds}
+        return JsonResponse(context)
+
+
+def pomodoro_complete(request):
+    user = request.user
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        Post.objects.create(completed_by = user, time_in_seconds = data['time'], task = data['task'])
+        return JsonResponse({'Message':'Request successful'}, status=200)
 
 
 def post_list(request):
@@ -45,7 +68,6 @@ def post_list(request):
         # Calculating the follow count
         if request.htmx:
             return render(request, 'partials/homepage/post_list.html', context)
-
 
 
 def post_details(request, id):
@@ -96,11 +118,12 @@ def leaderboard(request, **kwargs):
     if country:
         country = country
         qset = ModifiedUserModel.objects.filter(profile__country=country).filter(posts__completion_date__gt=start_time).annotate(total_time=Sum('posts__time_in_seconds')).order_by('-total_time')
+        print(qset.query)
     else:    
         qset = ModifiedUserModel.objects.filter(posts__completion_date__gt=start_time).annotate(total_time=Sum('posts__time_in_seconds')).order_by('-total_time')
     top_3 = qset[:3]
     others = qset[3:10]
-    context = {'top_3':top_3, 'others':others, 'qset':qset}
+    context={'top_3': top_3, 'others': others}
     if request.htmx:
         return render(request, 'partials/homepage/leaderboard-main.html', context)
     return render(request, 'pages/leaderboard.html', context)
@@ -147,21 +170,73 @@ def like_unlike(request, pk):
         return render(request, 'components/wrappers/like-btn-wrapper.html', context)
 
 
-def unfriend(request, pk):
+def profile(request):
     user = request.user
-    friend = ModifiedUserModel.objects.get(pk=pk)
-    if friend in user.profile.friends.all():
-        user.profile.friends.remove(friend)
-        return render(request, 'components/')
+    posts = user.posts.all()
+    post_count = user.posts.count()
+    profile = user.profile
+    friends_count = user.profile.friends.count()
+    streak = user.get_streak
+    context={'user': user, 'posts': posts, 'profile': profile,
+            'post_count': post_count, 'friends_count': friends_count, 'streak': streak}
+    if request.htmx:
+        return render(request, 'partials/homepage/profile.html', context)
+    return render(request, 'pages/profile.html', context)
+
+
+def friend_profile(request, pk):
+    user = get_object_or_404(ModifiedUserModel, pk=pk)
+    self_ = request.user
+    if user:
+        status = ''
+        posts = user.posts.all()
+        post_count = user.posts.count()
+        profile = user.profile
+        friends_count = user.profile.friends.count()
+        streak = user.get_streak
+        try:
+            qset = Q((self_.receiver.filter(sender=user))|(self_.sender.filter(receiver=user)))
+            obj = qset.children[0][0]
+            if obj:
+                status = 'friend' if obj.accepted else 'pending'
+        except Exception as e:
+            print(f"{e} was raised.")
+            status = 'not friend'
+        context={'user': user, 'posts': posts, 'profile': profile,
+            'post_count': post_count, 'friends_count': friends_count, 
+            'streak': streak, 'status': status}
+        if request.htmx:
+            return render(request, 'partials/homepage/profile.html', context)
+        return render(request, 'pages/profile.html', context)
+
+
+
+def unfriend(request, pk):
+    self_ = request.user
+    user = ModifiedUserModel.objects.get(pk=pk)
+    self_.profile.friends.remove(user)
+    user.profile.friends.remove(self_)
+    try:
+        qset = Q((self_.receiver.filter(sender=user))|(self_.sender.filter(receiver=user)))
+        obj = qset.children[0][0]
+        if obj:
+            obj.delete()
+    except Exception as e:
+        print(f"Couldn't return user.")
+    if request.htmx:
+        pass
+    
 
 
 def send_friend_request(request, pk):
+    receiver = get_object_or_404(ModifiedUserModel, pk=id)
     sender = request.user
-    receiver = ModifiedUserModel.objects.get(pk=pk)
-    friend_request = FriendRequest(sender = sender, receiver = receiver)
-    friend_request.save()
-    notification_content = f"{sender.username} has sent you a friend request."
-    notification = Notification(receiver=receiver, content=notification_content)
+    if receiver:
+        if request.htmx:
+            FriendRequest.objects.create(sender=sender, receiver=receiver)
+            notification_content = f"{sender.username} has sent you a friend request."
+            notification = Notification(receiver=receiver, content=notification_content)
+            return render(request, '')
 
 
 def accept_friend_request(request, pk):

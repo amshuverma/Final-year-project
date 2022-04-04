@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-      <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/friends.css' %}">
@@ -20,16 +20,19 @@
 
     <!-- Navigation bar -->
     <nav x-data = "{dropdown: false}" class="main__nav sticky top-0 shadow-sm left-0 flex justify-center items-center py-4 gap-[10rem] h-[64px] w-full">
-        <div class="logo flex justify-center font-medium text-3xl text-btn-shadow items-center text-gray-800">🍅</div>
-        <div class="links text-sm flex flex-row justify-center items-center">
-            <a hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-headers='{"Profile":"Hello"}' hx-push-url="true" class="link__home cursor-pointer rounded-full flex justify-around align-baseline mr-16 hover:bg-btn py-1 px-4 ">
+        <div class="logo flex justify-center font-medium text-3xl text-btn-shadow items-center">🍅</div>
+        <div class="links text-sm flex justify-between">
+            <a hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-headers='{"Profile":"Hello"}' hx-push-url="true" class="link__home mr-12 cursor-pointer rounded-full flex justify-around align-baseline  hover:bg-btn py-1 px-4 ">
                 🏡 Home
             </a>
-            <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer rounded-full flex justify-around align-baseline mr-16 hover:bg-btn py-1 px-4">
+            <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer mr-12 rounded-full flex justify-around align-baseline hover:bg-btn py-1 px-4">
                 📈 Leaderboard
             </a>
-            <a hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
+            <a hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends mr-12 cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
                 👬 Friends
+            </a>
+            <a hx-get="{% url 'self profile' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
+                🧑🏼‍🏫 Profile
             </a>
         </div>
         {% include './partials/homepage/dropdown.html' %}
@@ -41,14 +44,16 @@
         {% endblock content %}
     </main>
 
-    <script src="{% static 'js/homepage/modal.js' %}"></script>
-    <script src="{% static 'js/homepage/input.js' %}"></script>
-    <script src="{% static 'js/homepage/pomodoro.js' %}"></script>
-    <script src="{% static 'js/homepage/getCookie.js' %}"></script>
     <script>
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";
         })
     </script>
+    <script src="{% static 'js/homepage/pomodoro.js' %}"></script>
+    <script src="{% static 'js/homepage/modal.js' %}"></script>
+    <script src="{% static 'js/homepage/getCookie.js' %}"></script>
+    <script src="{% static 'js/homepage/checkAjax.js' %}"></script>
 </body>
 </html>

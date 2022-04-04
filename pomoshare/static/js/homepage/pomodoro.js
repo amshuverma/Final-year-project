@@ -1,37 +1,49 @@
 let countdown;
 
-let taskSelected = null;
-let duration = null;
+const minutes = $('.pomodoro__minutes')
+const seconds = $('.pomodoro__seconds')
+const cookie = getCookie('csrftoken');
 
-const radioBtns = $$('.task__radio-btn');
-const timeInputs = $$('.pomodoro__box-input');
 
-function alertStarted(){
-    taskSelected = $('input[name="task"]:checked').id;
-    duration = parseInt($('.pomodoro__box-input-seconds').value) + parseInt($('.pomodoro__box-input-minutes').value * 60);
-    alert(`Started ${taskSelected} for a time of ${duration} seconds.`)
+// async function getData(url){
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     return data
+// }
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
-function disableRadioAndInput(){
-    radioBtns.forEach(btn => btn.disabled = true);
-    timeInputs.forEach(input => input.disabled = true);  
-}
-
-function enableRadioAndInput(){
-    radioBtns.forEach(btn => btn.disabled = false);
-    timeInputs.forEach(input => input.disabled = false);  
+function getTask(){
+    const task = $('input[type="radio"]:checked').id;
+    return task
 }
 
 function pomodoro(){
-    console.log('muffin');
-
+    console.log('muffin')
     return {
+
         firstSession: true,
         completed: false,
         started: false,
+        totalSeconds: 0,
+
         defTime: {
-            minutes: 00,
-            seconds: 10,
+            minutes: 0,
+            seconds: 0,
         },
 
         time: {
@@ -40,26 +52,40 @@ function pomodoro(){
             totalTime: 0,
         },
 
+        async getData(){
+            const response = await(fetch('pomodoro/time/'))
+            if (response.ok){
+                const data = await response.json()
+                this.time.minutes = data.minutes
+                this.time.seconds = data.seconds
+            } else {
+                console.log('Could not get the data')
+            }
+        },
+
         init(){
-            this.started = false;
+            this.getData().then(() => {
+                this.started = false;
+                this.time.totalTime = (parseInt(this.time.minutes) * 60) + parseInt(this.time.seconds);
 
-            this.time.totalTime = (parseInt(localStorage.getItem('Mins')) * 60) + parseInt(localStorage.getItem('Secs'));
+                this.defTime.minutes = parseInt(this.time.minutes);
+                this.defTime.seconds = parseInt(this.time.seconds);
 
-            this.defTime.minutes = parseInt(localStorage.getItem('Mins'));
-            this.defTime.seconds = parseInt(localStorage.getItem('Secs'));
-
-            this.time.minutes = this.defTime.minutes < 10 ? "0" + this.defTime.minutes : this.defTime.minutes;
-            this.time.seconds = this.defTime.seconds < 10 ? "0" + this.defTime.seconds : this.defTime.seconds;
+                this.time.minutes = this.defTime.minutes < 10 ? "0" + this.defTime.minutes : this.defTime.minutes;
+                this.time.seconds = this.defTime.seconds < 10 ? "0" + this.defTime.seconds : this.defTime.seconds;
+            })
         },
 
         startPomodoro(){
+
             this.started = true;
+        
+            this.totalSeconds = this.time.totalTime
+
             clearInterval(countdown);
-            if (this.firstSession == true){
-                alertStarted();
-            }
-            disableRadioAndInput();
+
             this.firstSession = false;
+
             countdown = setInterval(() => {
                 console.log(this.time.totalTime);
                 this.time.totalTime--;
@@ -79,7 +105,7 @@ function pomodoro(){
             this.time.seconds = this.defTime.seconds < 10 ? "0" + this.defTime.seconds : this.defTime.seconds;
             this.time.totalTime = this.defTime.minutes * 60 + this.defTime.seconds;
             this.firstSession = true;
-            enableRadioAndInput();
+            this.init()
         },
 
         pausePomodoro(){
@@ -94,9 +120,35 @@ function pomodoro(){
 
         checkCompleted(){
             if (this.time.minutes == "00" && this.time.seconds == "00"){
-                this.stopPomodoro();
-                alert(`Completed ${taskSelected} for a time of ${duration} seconds`);
+                alert('Over');
+                const data = {
+                    task: getTask(),
+                    time: this.totalSeconds
+                }
+                const url = 'pomodoro/completed/'
+
+                const response = this.sendAjaxRequest(url, data).then((data) => {
+                    this.stopPomodoro()
+                    if (data.ok){
+                        data.json().then(message => console.log(message.Message))
+                        window.location = '/'
+                    }
+                    
+                })
+                // alert(`Completed ${taskSelected} for a time of ${duration} seconds`);
             }
+        },
+
+        async sendAjaxRequest(url, data){
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': cookie,
+                }
+            })
+            return response
         }
 
     }

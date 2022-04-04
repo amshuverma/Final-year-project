@@ -65,7 +65,7 @@
     font-weight: 500;
 }
 
-.pomodoro__box-main p{
+.clock{
     font-family: 'IBM Plex Mono';
     font-size: 65px;
     color: var(--color-pomodoro-text);

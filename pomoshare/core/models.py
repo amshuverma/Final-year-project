@@ -1,4 +1,6 @@
+from sys import maxsize
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from datetime import timedelta
@@ -37,6 +39,8 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=300, blank=True, null=True)
     image = models.ImageField(default=None, upload_to='profile pictures/')
+    pomodoro_minutes = models.PositiveSmallIntegerField(default=24, validators=[MaxValueValidator(59)], blank=False, null=False)
+    pomodoro_seconds = models.PositiveSmallIntegerField(default=59, validators=[MaxValueValidator(59)], blank=False, null=False)
     friends = models.ManyToManyField(ModifiedUserModel, blank=True, related_name="friends")
 
     def __str__(self):
@@ -67,12 +71,13 @@ class FriendRequest(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Friends: {self.friend_one.username} and {self.friend_two.username}"
+        return f"Friends: {self.sender.username} and {self.receiver.username}"
 
 
 class Notification(models.Model):
     receiver = models.ForeignKey(ModifiedUserModel, on_delete=models.CASCADE, related_name='notification_receiver')
     content = models.CharField(max_length=400, blank=False, null=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.receiver} : {self.content}"
