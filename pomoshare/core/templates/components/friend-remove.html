@@ -1,3 +1,5 @@
-<button hx-post={% url 'unfriend' friend.id %} class="unfollow-btn bg-red-400 text-sm py-2 text-white rounded-full ">
-    Unfollow
+<button hx-post={% url 'unfriend' id %} hx-target=".unfollow-btn" hx-swap="outerHTML swap:800ms" hx-trigger="click" class="unfollow-btn border-2 border-red-600 hover:drop-shadow-none px-3 transition-all hover:translate-y-1 duration-200 cursor-pointer bg-red-400 text-sm py-2 text-white rounded-full ">
+    Unfriend
 </button>
+
+{% comment %} class="start__btn w-full hover:shadow-none {% if small %} text-xs {% else %} text-sm {% endif %} transition-all hover:translate-y-1 duration-200 text-white pointer flex justify-center items-center px-3 py-2 bg-button rounded-full border-2" {% endcomment %}

@@ -101,10 +101,9 @@ def post_comment(request, id):
     post = get_object_or_404(Post, pk=id)
     if post:
         comment = request.POST.get('comment')
-        print('comment')
-        print(comment)
         user = request.user
-        Comments.objects.create(comment=comment, commented_by=user, post = post)
+        if comment.strip() != "":
+            Comments.objects.create(comment=comment, commented_by=user, post = post)
         comments = post.comments.all().order_by('-comment_date')
         context = {'comments':comments}
         if request.htmx:
@@ -202,6 +201,8 @@ def friend_profile(request, pk):
         except Exception as e:
             print(f"{e} was raised.")
             status = 'not friend'
+        if self_ == user:
+            status = 'self'
         context={'user': user, 'posts': posts, 'profile': profile,
             'post_count': post_count, 'friends_count': friends_count, 
             'streak': streak, 'status': status}
@@ -224,26 +225,45 @@ def unfriend(request, pk):
     except Exception as e:
         print(f"Couldn't return user.")
     if request.htmx:
-        pass
+        return render(request, 'components/friend-add.html')
     
 
-
 def send_friend_request(request, pk):
-    receiver = get_object_or_404(ModifiedUserModel, pk=id)
+    receiver = get_object_or_404(ModifiedUserModel, pk=pk)
     sender = request.user
     if receiver:
         if request.htmx:
             FriendRequest.objects.create(sender=sender, receiver=receiver)
             notification_content = f"{sender.username} has sent you a friend request."
             notification = Notification(receiver=receiver, content=notification_content)
-            return render(request, '')
+            notification.save()
+            return render(request, 'components/friend-pending.html')
+
+
+def friend_requests(request):
+    self_ = request.user
+    friend_requests = FriendRequest.objects.filter(receiver=self_, accepted=False)
+    context['requests'] = friend_requests
+    return render(request, )
 
 
 def accept_friend_request(request, pk):
     friend_request = FriendRequest.objects.get(pk=pk)
+    self_ = request.user
+    friend = friend_request.sender
     friend_request.accepted = True
     friend_request.save()
-    profile = Profile.objects.get(profile_of)
+    friend.profile.friends.add(self_)
+    self_.profile.friends.add(friend)
+    if request.htmx:
+        pass
+
+
+def update_profile(self):
+    pass
+    
+
+
 
 
 

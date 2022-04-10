@@ -2,11 +2,6 @@
     box-shadow: 0px 5px 0 rgba(93, 108, 93, 1);
 }
 
-.unfollow-btn {
-    box-shadow: 0 3px 0 #C53535;
-    border: 2px solid #C53535;
-}
-
 .friends__table tr:nth-child(odd){
     background-color: #D6D4A1;
 }

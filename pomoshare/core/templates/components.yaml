@@ -26,3 +26,6 @@ components:
   card: "components/card.html"
   button: "components/button.html"
   friend-add: "components/friend-add.html"
+  friend-pending: "components/friend-pending.html"
+  friend-remove: "components/friend-remove.html"
+  request-status-btn: "components/buttons/request-status-btn.html"

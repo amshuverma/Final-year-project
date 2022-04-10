@@ -1,6 +1,3 @@
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
-
 // let minutes = 0;
 // let seconds = 0;
 

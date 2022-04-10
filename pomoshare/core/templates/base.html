@@ -23,16 +23,16 @@
         <div class="logo flex justify-center font-medium text-3xl text-btn-shadow items-center">🍅</div>
         <div class="links text-sm flex justify-between">
             <a hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-headers='{"Profile":"Hello"}' hx-push-url="true" class="link__home mr-12 cursor-pointer rounded-full flex justify-around align-baseline  hover:bg-btn py-1 px-4 ">
-                🏡 Home
+                Home
             </a>
             <a hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer mr-12 rounded-full flex justify-around align-baseline hover:bg-btn py-1 px-4">
-                📈 Leaderboard
+                Leaderboard
             </a>
             <a hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends mr-12 cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
-                👬 Friends
+                People
             </a>
             <a hx-get="{% url 'self profile' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
-                🧑🏼‍🏫 Profile
+                Profile
             </a>
         </div>
         {% include './partials/homepage/dropdown.html' %}

@@ -3,7 +3,7 @@ from .views import (homepage, leaderboard, friends,
                     unfriend, search_friends, like_unlike, 
                     post_details, post_list, post_comment, 
                     profile, get_pomodoro_time, pomodoro_complete,
-                    friend_profile)
+                    friend_profile, send_friend_request)
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -21,7 +21,8 @@ urlpatterns = [
 
     path('friends/', friends, name="friends"),
     path('friends/search/', search_friends, name="search-friends"),
-    path('unfriend/<int:pk>', unfriend, name="unfriend"),
+    path('unfriend/<int:pk>/', unfriend, name="unfriend"),
+    path('add-friend/<int:pk>/', send_friend_request, name="send-request"),
 
     path('profile/self/', profile, name="self profile"),
     path('profile/<int:pk>/', friend_profile, name="friend profile"),

@@ -9,7 +9,7 @@
                         <img class="rounded-full" src="{{profile.image.url}}" alt="">
                     </div>
                     <div class="profile__about mt-2">
-                        <h1 class="font-medium text-lg text-gray-800">{{ user.get_fullname }} {{ status }}</h1>
+                        <h1 class="font-medium text-lg text-gray-800">{{ user.get_fullname }}</h1>
                         <h4 class="text-gray-500 text-xs mb-2">@{{ user.username }}</h4>
                         <p class="text-gray-600 text-md max-w-sm">
                             {{ user.profile.status }}
@@ -17,7 +17,15 @@
                     </div>
                 </div>
                 <div class="align-self-end mt-4">
-                    {% #button %} Update profile {% /button %}
+                    {% if status == "friend" %}
+                        {% friend-remove  id=profile.id %}
+                    {% elif status == "pending" %}
+                        {% friend-pending %}
+                    {% elif status == "not friend" %}
+                        {% friend-add id=profile.id %}
+                    {% elif status == "self" %}
+                        
+                    {% endif %}
                 </div>
             </section>
             <section class="flex gap-5 mt-11 pb-6">
