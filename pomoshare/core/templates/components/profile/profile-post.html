@@ -1,5 +1,7 @@
 <div class="py-5 px-5 mt-3 shadow-custom rounded-2xl profile-box bg-white relative">
+    {% if status != 'self' %}
     {% close-button position="top-4 right-4" %}
+    {% endif %}
     {% time-pill time=time %}
     <p class="text-md text-gray-700 mt-3 ml-2">Completed {{ task_time }} minutes of {{ task }} {{ emoji }}</p>
     <div class="Like__comment flex mt-3 -ml-1" x-data="{ liked: false }">
