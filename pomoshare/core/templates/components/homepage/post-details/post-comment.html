@@ -1,11 +1,16 @@
-<div class="flex gap-1 mt-0.5">
+{% include '../../../partials/homepage/delete-modal.html' %}
+<div class="flex gap-1 mt-0.5 ">
     <div class="h-10 w-10 place-self-start mr-2">
         <img class="h-10 w-10 rounded-full" src="{{ image }}" alt="">
     </div>
-        <div class="bg-container max-w-xs shadow-sm border place-self-end mt-3 border-gray-300 border-opacity-10 rounded-tr-lg rounded-b-md py-4 px-5 flex flex-col items-start">
-            <h5 class="text-sm text-gray-800 font-semibold mb-1">{{ username }}</h5>
-            <p class="text-sm text-gray-600 font-normal">
-                {{ comment }}
-            </p>
+    <div class="bg-container group max-w-xs shadow-sm border place-self-end mt-3 border-gray-300 border-opacity-10 rounded-tr-lg rounded-b-md py-4 px-5 flex flex-col items-start">
+        <h5 class="text-sm text-gray-800 font-semibold mb-1">{{ username }}</h5>
+        <p class="text-sm text-gray-600 font-normal">
+            {{ comment }}
+        </p>
+        <div class="comment-context hidden mt-2 gap-2 group-hover:flex">
+            <p x-on:click="data.overlay = true, data.deleteModal = true" class="text-xs cursor-pointer hover:text-blue-600 font-semibold">Edit</p>
+            <p class="text-xs cursor-pointer hover:text-red-600 font-semibold">Delete</p>
         </div>
+    </div>
 </div>

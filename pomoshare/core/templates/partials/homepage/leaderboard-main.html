@@ -5,19 +5,19 @@
                     <h1 class="text-2xl text-btn-shadow mb-2 font-normal">
                         🎉 Today's Leaderboard 🎉
                     </h1>
-                    <div class="btn__location mt-2 px-4 py-4 w-[305px] flex justify-between items-center rounded-full bg-container border-2 border-primary-border">
-                        <button type="submit" hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="btn__location-world hover:shadow-none transition-all duration-200 bg-btn rounded-full px-8 h-10 drop-shadow-btn-large text-white text-sm border-2 border-btn-shadow">
-                            World
-                        </button>
-                        <button type="submit" hx-get="{% url 'leaderboard' country=request.user.profile.country%}" hx-target=".main-homepage" hx-swap="innerHTML" hx-push-url="true" hx-trigger="click" class="btn__location-country hover:shadow-none transition-all duration-200 bg-btn border-2 border-btn-shadow drop-shadow-btn-large flex justify-center items-center rounded-full px-8 h-10 text-sm text-white">
+                    <div class="btn__location mt-2 px-4 pt-3 pb-3.5 w-[305px] flex justify-between items-center rounded-full bg-container border-2 border-primary-border">
+                        <button type="submit" hx-get="{% url 'leaderboard' country=request.user.profile.country%}" hx-target=".main-homepage" hx-swap="innerHTML" hx-push-url="true" hx-trigger="click" class="btn__location-country hover:shadow-none transition-all duration-200 bg-btn border-2 border-btn-shadow drop-shadow-btn flex justify-center items-center rounded-full px-8 h-10 text-sm text-white">
                             Your country
+                        </button>
+                        <button type="submit" hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML" hx-trigger="click" hx-push-url="true" class="btn__location-world hover:shadow-none transition-all duration-200 bg-btn rounded-full px-8 h-10 drop-shadow-btn- text-white text-sm border-2 border-btn-shadow">
+                            World
                         </button>
                     </div>
                 </div>
                 <div class="px-10 pt-11 leaderboard__top3 flex justify-between items-center -mt-8 rounded-3xl bg-container border-2 border-primary-border">
 
                     <!-- Top 2 -->
-
+                    {% if top_3.1 %}
                     <div class="flex items-end h-full w-[500px] ">
                         <div class="h-full w-full flex flex-col items-center justify-end pb-10 ">
                             <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
@@ -27,7 +27,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="triangle absolute text-gray-700 -top-3 left-1/2 transform -translate-x-1/2" width="24" height="24.684" viewBox="0 0 24 24.684">
                                     <path id="Polygon_4" data-name="Polygon 4" d="M9.3,5.55a3,3,0,0,1,5.4,0L21.9,20.372a3,3,0,0,1-2.7,4.312H4.794a3,3,0,0,1-2.7-4.312Z" fill="#d6d4a1"/>
                                 </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-5 -right-2" width="42.691" height="42.691" viewBox="0 0 42.691 42.691">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-5 -right-4" width="42.691" height="42.691" viewBox="0 0 42.691 42.691">
                                     <g id="Group_121" data-name="Group 121" transform="translate(-1536 -774)">
                                       <path id="Union_5" data-name="Union 5" d="M16.04,40.738a8.172,8.172,0,0,0-4.655-1.93,8.178,8.178,0,0,1-7.5-7.5A8.193,8.193,0,0,0,1.954,26.65a8.176,8.176,0,0,1,0-10.609,8.193,8.193,0,0,0,1.929-4.654,8.179,8.179,0,0,1,7.5-7.5,8.179,8.179,0,0,0,4.655-1.93,8.183,8.183,0,0,1,10.61,0,8.192,8.192,0,0,0,4.658,1.93,8.177,8.177,0,0,1,7.5,7.5,8.183,8.183,0,0,0,1.932,4.654,8.183,8.183,0,0,1,0,10.609A8.183,8.183,0,0,0,38.807,31.3a8.177,8.177,0,0,1-7.5,7.5,8.185,8.185,0,0,0-4.658,1.93,8.181,8.181,0,0,1-10.61,0Z" transform="translate(1536 774)" fill="#848484"/>
                                       <text id="_3" data-name="#3" transform="translate(1556 802)" fill="#fff" font-size="16" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="400"><tspan x="-8.896" y="0">#2</tspan></text>
@@ -58,9 +58,9 @@
                             </div>
                         </div>
                     </div>
-
+                    {% endif %}
                     <!-- Top 1 -->
-
+                    {% if top_3.0 %}
                     <div class="flex items-end h-full w-[500px] ">
                         <div class="h-full w-full flex flex-col items-center justify-end pb-16 ">
                             <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
@@ -101,9 +101,9 @@
                             </div>
                         </div>
                     </div>
-
+                    {% endif %}
                     <!-- Top 3 -->
-
+                    {% if top_3.2 %}
                     <div class="flex items-end h-full w-[500px] ">
                         <div class="h-full w-full flex flex-col items-center justify-end pb-10 ">
                             <div class="leaderboard__top3-img flex items-center justify-center h-20 mb-3">
@@ -145,9 +145,9 @@
                         </div>
                     </div>
                 </div>
-
+                {% endif %}
                 <!-- Leaderboard table -->
-
+                
                 <div class="leaderboard__table-wrapper mt-4">
                     <table class="leaderboard__table w-full border-collapse">
                         {% if others %}

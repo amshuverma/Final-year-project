@@ -44,6 +44,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+            'registration-title': '#3B583B',
+            'form-label': '#575641',
             'button': '#CEDCD3',
             'primary': '#D6D4A1',
             'shadow': '#bdbb74',
@@ -59,11 +61,17 @@ module.exports = {
                 2: "#363CB5",
                 1: "#7B7FE8",
             },
+            'pomodoro': {
+                1: '#A4B3A4',
+                2: '#7E967E',
+                3: '#F7F6ED',
+            },
             },
           dropShadow:{
             'btn-small': '0 2px 0 rgba(93, 108, 93, 1)',
             'btn-large': '0 3px 0 rgba(93, 108, 93, 1)',
-            'btn-pending': '0 3px rgba(54, 60, 181, 1)',
+            'btn-pending': '0 3px 0 rgba(54, 60, 181, 1)',
+            'btn-red': '0 2px 0 rgba(220, 38, 38, 1)',
           },
             boxShadow:{
                 'custom': '0px 1px 33px rgba(189, 187, 116, 0.15)'

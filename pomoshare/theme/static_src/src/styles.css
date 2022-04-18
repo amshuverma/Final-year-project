@@ -15,4 +15,20 @@
     .animate {
         @apply transform transition-all ease-in-out duration-100;
     }
+
+    .text-input {
+        @apply bg-pomodoro-3 border-2 border-pomodoro-2 rounded-md px-3 py-2 w-[19.5rem] h-11 focus:outline-none text-form-label text-[0.9rem]
+    }
+
+    .flex-center{
+        @apply flex justify-center items-center
+    }
+
+    .form-label {
+        @apply text-form-label
+    }
+
+    .btn-hover {
+        @apply hover:drop-shadow-none hover:translate-y-1 transform duration-200
+    }
 }

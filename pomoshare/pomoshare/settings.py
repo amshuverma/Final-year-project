@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     # Third party apps
+    'widget_tweaks',
     'slippers',
     'tailwind',
     'theme',
@@ -100,7 +101,7 @@ AUTH_USER_MODEL = 'core.ModifiedUserModel'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pomoshare',
+        'NAME': 'pomoshare_second',
         'USER': 'root',
         'PASSWORD': 'hellokcha123',
         'HOST': 'localhost',

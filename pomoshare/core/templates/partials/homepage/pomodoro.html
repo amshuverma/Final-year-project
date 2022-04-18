@@ -1,11 +1,11 @@
 
-<section x-transition x-cloak x-show="data.overlay" class="overlay absolute top-0 left-0 h-full w-full flex justify-center items-center">
+<section x-transition x-cloak x-show="data.pomoOverlay" class="overlay absolute top-0 left-0 h-full w-full flex justify-center items-center">
 
     <div x-cloak class="pomodoro relative rounded-2xl border-2 py-7 px-5 w-[453px] h-[653px] flex flex-col gap-4 items-center">
 
      <!-- Close Button -->
 
-        <button x-on:click="data.overlay = false, pomodoro.stopPomodoro()" x-show="data.overlay" class="btn__pomodoro-close rotate-45 absolute top-5 right-5 z-30 p-0.5 rounded-full text-white">
+        <button x-on:click="data.pomoOverlay = false, pomodoro.stopPomodoro()" x-show="data.pomoOverlay" class="btn__pomodoro-close rotate-45 absolute top-5 right-5 z-30 p-0.5 rounded-full text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white rotate-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>

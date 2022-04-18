@@ -1,0 +1,15 @@
+{% load tailwind_tags %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %} {% endblock title %}
+</head>
+<body class="w-full h-full bg-pomodoro-1 flex items-center mt-20 flex-col">
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

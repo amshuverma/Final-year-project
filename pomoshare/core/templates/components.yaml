@@ -25,7 +25,12 @@ components:
   badge-small: "components/badge-small.html"
   card: "components/card.html"
   button: "components/button.html"
+  button-small: "components/buttons/button-small.html"
   friend-add: "components/friend-add.html"
   friend-pending: "components/friend-pending.html"
   friend-remove: "components/friend-remove.html"
   request-status-btn: "components/buttons/request-status-btn.html"
+
+  delete-icon: "components/icons/delete-icon.html"
+  edit-icon: "components/icons/edit-icon.html"
+  hamburger-dots: "components/icons/hamburger-dots.html"

@@ -1,8 +1,9 @@
 {% load static %}
 <div class="main__content pt-5 flex gap-1 justify-center" x-data = "{data: '', pomodoro:pomodoro()}" x-init="data = modal(), pomodoro.init()">
             {% include './pomodoro.html' %}
+            {% include './overlay.html' %}
     <!-- Sidebar -->
-    <div class="main__sidebar flex flex-col justify-start">
+    <div class="main__sidebar  flex flex-col justify-start">
         {% profile image=profile.image.url fullname=profile.get_full_name status=profile.status friend_count=profile.get_friends_no post_count=post_count %}
         {% leaderboard leaderboard_list=leaderboard %}
     </div>
@@ -10,3 +11,7 @@
     <!-- Create and read posts -->
     {% include './post_list.html' %}
 </div>
+{% comment %} <div x-ref="rightClickContextMenu" class="bg-btn text-sm cursor-pointer absolute top-11 left-11 border-2 border-btn-shadow py-2 rounded-lg">
+    <div class="hover:bg-black flex items-center hover:bg-opacity-20 w-full px-2 py-2 rounded-sm"> {% delete-icon size='small' %} <p class="ml-1">Delete</p> </div>
+    <div class="hover:bg-black flex items-center hover:bg-opacity-20 w-full px-2 py-2 rounded-sm"> {% edit-icon %} <p class="ml-1">Edit</p></div> 
+</div> {% endcomment %}

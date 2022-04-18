@@ -7,12 +7,28 @@ from django.shortcuts import render, redirect
 from core.choices import hello, TASKS_DICT
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+from .forms import NewUserCreationForm
 from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification, Comments
 from django.db.models import Sum, Aggregate, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 import datetime
 import json
+
+
+def register(request):
+    if request.method == 'POST':
+        form = NewUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username = username, password = password)
+            login(request, user)
+            return redirect('homepage')   
+    context = {"form": NewUserCreationForm()}
+    return render(request, 'Authentication/register.html', context)
 
 
 def homepage(request):
@@ -86,6 +102,7 @@ def post_details(request, id):
         comments = post.comments.all().order_by('-comment_date')
         comment_count = post.comments.count()
         like_count = post.likes.count()
+        print(image)
         like_count = f"{like_count} likes" if like_count >1 else f"{like_count} like"
         context = ({'comments': comments, 'task_obj': post, 
                     'like_count': like_count, 'user': user,
@@ -131,11 +148,13 @@ def leaderboard(request, **kwargs):
 def friends(request):
     user = request.user
     people = ModifiedUserModel.objects.filter(profile__country=user.profile.country)
-    context = {'people':people}
-    result_type = "People you may know."
-    context['result_type'] = result_type
-    if request.htmx:
-        return render(request, 'partials/homepage/friends.html', context)
+    if people:
+        context = {'people':people}
+        result_type = "People you may know."
+        context['result_type'] = result_type
+        if request.htmx:
+            return render(request, 'partials/homepage/friends.html', context)
+        return render(request, 'pages/friends.html', context)
     return render(request, 'pages/friends.html', context)
 
 
@@ -143,7 +162,7 @@ def search_friends(request):
     user = request.user
     keyword = request.POST.get("username")
     if request.htmx:
-        if keyword == "":
+        if keyword.strip() == "":
             context["people"] = ModifiedUserModel.objects.filter(profile__country=user.profile.country)
             context["result_type"] = "People you may know"
         else:
@@ -203,7 +222,7 @@ def friend_profile(request, pk):
             status = 'not friend'
         if self_ == user:
             status = 'self'
-        context={'user': user, 'posts': posts, 'profile': profile,
+        context={'user': self_, 'posts': posts, 'profile': profile,
             'post_count': post_count, 'friends_count': friends_count, 
             'streak': streak, 'status': status}
         if request.htmx:

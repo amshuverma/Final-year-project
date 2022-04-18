@@ -1,3 +1,3 @@
-<button class="start__btn w-full hover:shadow-none {% if small %} text-xs {% else %} text-sm {% endif %} transition-all hover:translate-y-1 duration-200 text-white pointer flex justify-center items-center px-3 py-2 bg-button rounded-full border-2">
+<button x-on:click="{{ click }}" class="start__btn w-full hover:shadow-none {% if small %} text-xs {% else %} text-sm {% endif %} transition-all hover:translate-y-1 duration-200 text-white pointer flex justify-center items-center px-3 py-2 bg-button rounded-full border-2">
     {{ children }}
 </button>

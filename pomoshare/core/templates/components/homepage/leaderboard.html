@@ -13,6 +13,6 @@
     {% endfor %}
     {% else %}
         <p class='text-sm mt-2 text-gray-800 opacity-80'>There isn't anybody on the leaderboard yet. Why don't you be one?</p>
-        <div class='mt-4'>{% #button onclick='data.overlay = true' %} Let's do it {% /button %}</div>
+        <div class='mt-4'>{% #button click="data.overlay = true, pomodoro.init()" %} Let's do it {% /button %}</div>
     {% endif %}
 </div>

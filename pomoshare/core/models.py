@@ -2,6 +2,7 @@ from sys import maxsize
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from datetime import timedelta
 # from PIL import Image
@@ -38,7 +39,7 @@ class Profile(models.Model):
     age = models.CharField(max_length=200, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=300, blank=True, null=True)
-    image = models.ImageField(default=None, upload_to='profile pictures/')
+    image = models.ImageField(default='profile pictures/Avatar-13.png', upload_to='profile pictures/')
     pomodoro_minutes = models.PositiveSmallIntegerField(default=24, validators=[MaxValueValidator(59)], blank=False, null=False)
     pomodoro_seconds = models.PositiveSmallIntegerField(default=59, validators=[MaxValueValidator(59)], blank=False, null=False)
     friends = models.ManyToManyField(ModifiedUserModel, blank=True, related_name="friends")
@@ -159,16 +160,21 @@ class Post(models.Model):
 
 class Comments(models.Model):
     comment = models.TextField(max_length=500, null=False)
-    commented_by = models.ForeignKey(ModifiedUserModel, on_delete=models.CASCADE)
     comment_date = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    commented_by = models.ForeignKey(ModifiedUserModel, on_delete=models.CASCADE)
+
+
+    # def comment_by(self, user):
+    #     if self.commented_by == user:
+    #         return 'request_user'
+    #     return 'not_request_user'
+
 
     def __str__(self):
-        return f"Task: {self.post.task}, " \
-               f"Time taken: {self.post.time_in_seconds}, " \
-               f"Commented by: {self.commented_by.username}"
-
-
+        return f"Task: {self.post.task}, "
+            #    f"Time taken: {self.post.time_in_seconds}, " \
+            #    f"Commented by: {self.commented_by.username}"
 
 
 

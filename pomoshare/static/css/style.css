@@ -141,7 +141,8 @@ label .task__radio-btn{
 
 .overlay {
     background: rgb(247, 246, 229, 0.95);
-    z-index: 999999999;
+    z-index: 99;
+
 }
 
 .main__content{
@@ -221,3 +222,13 @@ label .task__radio-btn{
 /* Leaderboard section */
 /*                     */
 
+.comment-context{
+    right: -1rem;
+}
+
+.delete__modal {
+    z-index: 99999;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
