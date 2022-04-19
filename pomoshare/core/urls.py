@@ -3,12 +3,13 @@ from .views import (homepage, leaderboard, friends,
                     unfriend, search_friends, like_unlike, 
                     post_details, post_list, post_comment, 
                     profile, get_pomodoro_time, pomodoro_complete,
-                    friend_profile, send_friend_request, register)
+                    friend_profile, send_friend_request, register, login)
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('register/', register, name='register'),
+    path('login', login, name='login'),
 
     path('', homepage, name="homepage"),
     path('post/all/', post_list, name="post_list"),

@@ -20,20 +20,30 @@ import json
 def register(request):
     if request.method == 'POST':
         form = NewUserCreationForm(request.POST)
+
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
-            user = authenticate(username = username, password = password)
-            login(request, user)
-            return redirect('homepage')   
+            user = authenticate(request, email = email, password = password)
+            print(user)
+            if user is not None:
+                login(request, user)
+            return redirect('homepage')
+
+        context = {"form": NewUserCreationForm(request.POST)}
+        return render(request, 'Authentication/register.html', context)
+
     context = {"form": NewUserCreationForm()}
     return render(request, 'Authentication/register.html', context)
+
+def login_request(request):
+    return render(request, 'Authentication/login.html')
 
 
 def homepage(request):
     context = {}
-    user = get_object_or_404(ModifiedUserModel, pk=request.user.pk)
+    user = request.user
     if user:
         profile = user.profile
         context['profile'] = profile
