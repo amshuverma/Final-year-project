@@ -1,6 +1,6 @@
 <div class="create__post flex h-[120px] rounded-2xl px-3.5">
-    <div class="create__post-profile w-28 h-full flex justify-center items-center rounded-l-2xl">
-        <img src="{{image}}" alt="Profile" class="w-20 h-20 rounded-full">
+    <div class="create__post-profile w-32 h-full flex justify-center items-center rounded-l-2xl">
+        <img src="{{image}}" alt="Profile" class="w-28 h-28 rounded-full">
     </div>
     <div class="flex flex-col flex-1 justify-between items-start mr-2 py-6">
         <p class="greeting text-md font-normal text-primary text-sm"> 👋  Howdy, John! Let’s check off some of your todos.</p>
@@ -10,10 +10,10 @@
         {% /button-large %}
     </div>
 </div>
-<script>
+{% comment %} <script>
     const createPost = document.querySelector('.create__post');
     console.log(createPost);
     createPost.addEventListener('click', (e) => {
         alert(e.pageX);
     })
-</script>
+</script> {% endcomment %}

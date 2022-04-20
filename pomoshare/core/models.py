@@ -14,6 +14,7 @@ class ModifiedUserModel(AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
+    full_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField( verbose_name='Email address', max_length=100, unique=True)
     username = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)

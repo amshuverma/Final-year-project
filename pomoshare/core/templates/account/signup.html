@@ -1,5 +1,7 @@
-{% extends './auth-base.html' %}
+{% extends '../Authentication/auth-base.html' %}
 {% load widget_tweaks %}
+{% load account socialaccount %}
+{% get_providers %}
 {% block title %}
     <title>Register</title>
 {% endblock title %}
@@ -28,18 +30,15 @@
                 <p class="text-[0.8rem] form-label">Password</p>
                 {% render_field form.password1 class="text-input placeholder-opacity-50 placeholder-form-label" type="Password" %}
             </div>
-            {% comment %} <div>
-                <p class="text-[0.8rem] form-label">Confirm password</p>
-                {% render_field form.password2 class="text-input" type=password %}
-            </div> {% endcomment %}
+
             <button type="submit" class="bg-btn border-2 btn-hover border-btn-shadow drop-shadow-btn-large rounded-lg text-white w-[19.5rem] py-2 mt-3">Sign me up</button>
         </form>
         <p class="text-form-label text-sm">Or</p>
-        <button class="text-red-500 mt-2 px-4 py-3 rounded-lg bg-pomodoro-3 border-2 border-btn-shadow drop-shadow-btn-large btn-hover">
+        <a href="{% provider_login_url 'google' %}" class="text-red-500 mt-2 px-4 py-3 rounded-lg bg-pomodoro-3 border-2 border-btn-shadow drop-shadow-btn-large btn-hover">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22.506 22.875">
                 <path id="Icon_awesome-google" data-name="Icon awesome-google" d="M22.506,12.267c0,6.526-4.469,11.17-11.069,11.17a11.437,11.437,0,0,1,0-22.875,11,11,0,0,1,7.67,2.993L15.994,6.549C11.922,2.619,4.349,5.571,4.349,12a7.164,7.164,0,0,0,7.088,7.222,6.185,6.185,0,0,0,6.494-4.93H11.437V10.358H22.326A10.027,10.027,0,0,1,22.506,12.267Z" transform="translate(0 -0.563)" fill="#e67676"/>
               </svg>
-        </button>
+            </a>
         <div class="flex gap-1 items-center mt-6">
             <p class="form-label text-sm">Already have an account?</p>
             <button class="cursor-pointer font-semibold px-2 py-0.5 hover:drop-shadow-none border-2 text-white drop-shadow-btn-small rounded-full border-btn-shadow bg-btn transition hover:translate-y-0.5 text-xs leaderboard__see-all">Login</button>

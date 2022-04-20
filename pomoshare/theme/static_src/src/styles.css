@@ -17,7 +17,7 @@
     }
 
     .text-input {
-        @apply bg-pomodoro-3 border-2 border-pomodoro-2 rounded-md px-3 py-2 w-[19.5rem] h-11 focus:outline-none text-form-label text-[0.9rem]
+        @apply bg-pomodoro-3 border-2 border-pomodoro-2 rounded-md px-3 py-2 w-[19.5rem] h-11 focus-within:outline-none focus:outline-pomodoro-3 text-form-label text-[0.9rem]
     }
 
     .flex-center{
