@@ -19,6 +19,7 @@ components:
   profile-post: "components/profile/profile-post.html"
   time-pill: "components/profile/time-pill.html"
   close-button: "components/buttons/close-button.html"
+  friend-request: "components/profile/friend-request.html"
   
   badge: "components/misc/badge.html"
   badge-large: "components/badge-large.html"

@@ -2,7 +2,6 @@
     {% if comments %}
     <p class="font-normal text-xs mb-3">Comments</p>
         {% for comment in comments %}
-        {{ comment.commented_by }}
             {% post-comment username=comment.commented_by.username comment=comment.comment image=comment.commented_by.profile.image.url %}
         {% endfor %}
     {% else %}

@@ -22,16 +22,16 @@
     <nav x-data = "{dropdown: false, nav: 'home'}" class="main__nav sticky top-0 shadow-sm left-0 flex justify-center items-center py-4 gap-[10rem] h-[64px] w-full">
         <div class="logo flex justify-center font-medium text-3xl text-btn-shadow items-center">🍅</div>
         <div class="links text-sm flex justify-between">
-            <a x-ref='home' @click="nav = 'home'" :class="nav === 'home' ? 'bg-btn' : ''" hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-headers='{"Profile":"Hello"}' hx-push-url="true" class="nav__link link__home mr-12 cursor-pointer rounded-full flex justify-around align-baseline  hover:bg-btn py-1 px-4 ">
+            <a x-ref='home' hx-get="{% url 'homepage' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-headers='{"Profile":"Hello"}' hx-push-url="true" class="nav__link link__home mr-12 cursor-pointer rounded-full flex justify-around align-baseline  hover:bg-btn py-1 px-4 ">
                 Home
             </a>
-            <a x-ref='leaderboard' @click="nav = 'leaderboard'" :class="nav === 'leaderboard' ? 'bg-btn' : ''" hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer mr-12 rounded-full flex justify-around align-baseline hover:bg-btn py-1 px-4">
+            <a x-ref='leaderboard' hx-get="{% url 'leaderboard' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:500ms" hx-trigger="click" hx-push-url="true" class="link__leaderboard cursor-pointer mr-12 rounded-full flex justify-around align-baseline hover:bg-btn py-1 px-4">
                 Leaderboard
             </a>
-            <a x-ref='people' @click="nav = 'people'" :class="nav === 'people' ? 'bg-btn' : ''" hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends mr-12 cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
+            <a x-ref='people' hx-get="{% url 'friends' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends mr-12 cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
                 People
             </a>
-            <a x-ref='profile' @click="nav = 'profile'" :class="nav === 'profile' ? 'bg-btn': ''" hx-get="{% url 'self profile' %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
+            <a x-ref='profile'  hx-get="{% url 'friend profile' request.user.id %}" hx-target=".main-homepage" hx-swap="innerHTML swap:800ms" hx-trigger="click" hx-push-url="true" class="link__friends cursor-pointer p-2 flex justify-around rounded-full align-baseline hover:bg-btn py-1 px-4">
                 Profile
             </a>
         </div>

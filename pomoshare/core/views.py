@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .forms import NewUserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification, Comments
 from django.db.models import Sum, Aggregate, Q
 from django.shortcuts import get_object_or_404
@@ -37,13 +38,15 @@ def register(request):
     context = {"form": NewUserCreationForm()}
     return render(request, 'Authentication/register.html', context)
 
+
 def login_request(request):
     return render(request, 'Authentication/login.html')
 
-
+@login_required
 def homepage(request):
     context = {}
     user = request.user
+    print(user.username)
     if user:
         profile = user.profile
         context['profile'] = profile
@@ -58,7 +61,7 @@ def homepage(request):
         context['leaderboard'] = ModifiedUserModel.objects.filter(posts__completion_date__gt=start_time).annotate(total_time=Sum('posts__time_in_seconds')).order_by('-total_time')[:3]
         # Calculating the follow count
         if user.friends.count() != None:
-            context['friends'] = user.profile.friends.count()
+            context['friends'] = user.profile.friends.count() - 1
         context['post_count'] = user.posts.count()
         if request.htmx:
             return render(request, 'partials/homepage/home-main.html', context)
@@ -198,29 +201,33 @@ def like_unlike(request, pk):
         return render(request, 'components/wrappers/like-btn-wrapper.html', context)
 
 
-def profile(request):
-    user = request.user
-    posts = user.posts.all()
-    post_count = user.posts.count()
-    profile = user.profile
-    friends_count = user.profile.friends.count()
-    streak = user.get_streak
-    context={'user': user, 'posts': posts, 'profile': profile,
-            'post_count': post_count, 'friends_count': friends_count, 'streak': streak}
-    if request.htmx:
-        return render(request, 'partials/homepage/profile.html', context)
-    return render(request, 'pages/profile.html', context)
+# def profile(request):
+#     user = request.user
+#     posts = user.posts.all()
+#     post_count = user.posts.count()
+#     profile = user.profile
+#     friends_count = user.profile.friends.count()
+#     friend_requests_count = FriendRequest.objects.filter(receiver=user, accepted=False).count()
+#     streak = user.get_streak
+#     context={'user': user, 'posts': posts, 'profile': profile,
+#             'post_count': post_count, 'friends_count': friends_count, 
+#             'requests_count': friend_requests_count, 'streak': streak}
+#     if request.htmx:
+#         return render(request, 'partials/homepage/profile.html', context)
+#     return render(request, 'pages/profile.html', context)
 
 
 def friend_profile(request, pk):
     user = get_object_or_404(ModifiedUserModel, pk=pk)
     self_ = request.user
+    print(user)
     if user:
         status = ''
         posts = user.posts.all()
         post_count = user.posts.count()
         profile = user.profile
         friends_count = user.profile.friends.count()
+        friend_requests_count = FriendRequest.objects.filter(receiver=self_, accepted=False).count()
         streak = user.get_streak
         try:
             qset = Q((self_.receiver.filter(sender=user))|(self_.sender.filter(receiver=user)))
@@ -232,9 +239,9 @@ def friend_profile(request, pk):
             status = 'not friend'
         if self_ == user:
             status = 'self'
-        context={'user': self_, 'posts': posts, 'profile': profile,
+        context={'user': user, 'posts': posts, 'profile': profile, 'user_id':user.id,
             'post_count': post_count, 'friends_count': friends_count, 
-            'streak': streak, 'status': status}
+            'streak': streak, 'status': status, 'requests_count':friend_requests_count}
         if request.htmx:
             return render(request, 'partials/homepage/profile.html', context)
         return render(request, 'pages/profile.html', context)
@@ -254,7 +261,7 @@ def unfriend(request, pk):
     except Exception as e:
         print(f"Couldn't return user.")
     if request.htmx:
-        return render(request, 'components/friend-add.html')
+        return render(request, 'components/friend-add.html', {'id':user.id})
     
 
 def send_friend_request(request, pk):
@@ -269,15 +276,27 @@ def send_friend_request(request, pk):
             return render(request, 'components/friend-pending.html')
 
 
-def friend_requests(request):
+def friend_requests(request, pk):
     self_ = request.user
-    friend_requests = FriendRequest.objects.filter(receiver=self_, accepted=False)
-    context['requests'] = friend_requests
-    return render(request, )
+    profile_of = ModifiedUserModel.objects.get(pk=pk)
+    if self_ == profile_of and request.htmx:
+        context = {}
+        friend_requests = FriendRequest.objects.filter(receiver=self_, accepted=False).prefetch_related('sender').prefetch_related('receiver')
+        context['requests'] = friend_requests
+        return render(request, 'partials/homepage/friend-requests.html', context)
+
+
+def all_posts(request, id):
+    user = get_object_or_404(ModifiedUserModel, pk=id)
+    posts = user.posts.all()
+    context = {'posts': posts}
+    if request.htmx:
+        return render(request, 'partials/homepage/profile-posts.html', context)
 
 
 def accept_friend_request(request, pk):
     friend_request = FriendRequest.objects.get(pk=pk)
+    print(pk)
     self_ = request.user
     friend = friend_request.sender
     friend_request.accepted = True
@@ -285,11 +304,15 @@ def accept_friend_request(request, pk):
     friend.profile.friends.add(self_)
     self_.profile.friends.add(friend)
     if request.htmx:
-        pass
+        context = {}
+        friend_requests = FriendRequest.objects.filter(receiver=self_, accepted=False).prefetch_related('sender').prefetch_related('receiver')
+        context['requests'] = friend_requests
+        return render(request, 'partials/homepage/friend-requests.html', context)
 
 
 def update_profile(self):
     pass
+
     
 
 

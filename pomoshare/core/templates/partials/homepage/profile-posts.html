@@ -1,0 +1,12 @@
+<section class="profile__posts">
+    {% if posts %}
+    {% for post in posts %}
+    {% profile-post task_obj=post time=post.posted_time task=post.task task_time=post.time_in_minutes emoji="👑"  id=post.id user=user like_count=post.like_count comment_count=post.comment_count %}
+    {% endfor %}
+    {% else %}
+    <div class="mt-20 flex-center text-2xl opacity-30 text-primary">
+    No posts to show.
+    </div>
+    {% endif %}
+</section>
+

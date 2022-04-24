@@ -31,4 +31,8 @@
     .btn-hover {
         @apply hover:drop-shadow-none hover:translate-y-1 transform duration-200
     }
+
+    .active-tab{
+        @apply rounded-md bg-primary
+    }
 }

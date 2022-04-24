@@ -1,5 +1,5 @@
-<div class="main__content mt-5 flex flex-col items-center">
-    <div class="w-[43rem] shadow-custom ">
+<div class="main__content w-[43rem] mt-5 flex flex-col items-center">
+    <div class="w-[42rem] shadow-custom ">
         <div class="bg-primary rounded-t-2xl h-32">
         </div>
         <div class="bg-white px-10 rounded-b-2xl ">
@@ -10,19 +10,21 @@
                     </div>
                     <div class="profile__about mt-2">
                         <h1 class="font-medium text-lg text-gray-800">{{ user.get_fullname }}</h1>
-                        <h4 class="text-gray-500 text-xs mb-2">@{{ user.username }}</h4>
-                        <p class="text-gray-600 text-md max-w-sm">
+                        <div class="flex mt-0.5 gap-5">
+                            <h4 class="text-gray-500 text-xs">@{{ user.username }}</h4>
+                        </div>
+                        <p class="text-gray-600 mt-3 text-md max-w-sm">
                             {{ user.profile.status }}
                         </p>
                     </div>
                 </div>
                 <div class="align-self-end mt-4">
                     {% if status == "friend" %}
-                        {% friend-remove  id=profile.id %}
+                        {% friend-remove id=user.id %}
                     {% elif status == "pending" %}
                         {% friend-pending %}
                     {% elif status == "not friend" %}
-                        {% friend-add id=profile.id %}
+                        {% friend-add id=user.id %}
                     {% elif status == "self" %}
                         
                     {% endif %}
@@ -36,13 +38,23 @@
             </section>
         </div>
     </div>
-    <div class="w-[43rem] profile__posts-container rounded-xl mt-7">
-        <h3 class="text-sm text-gray-700 ml-3 mb-2">All posts</h3>
-        
-        <section class="profile__posts">
-            {% for post in posts %}
-            {% profile-post task_obj=post time=post.posted_time task=post.task task_time=post.time_in_minutes emoji="👑"  id=post.id user=user like_count=post.like_count comment_count=post.comment_count %}
-            {% endfor %}
-        </section>
+    <div x-data="{ section:'posts' }" class="w-[42rem] flex flex-col profile__posts-container rounded-xl mt-7">
+        {% if status == 'self' %}
+        <div class="flex gap-3 items-center">
+            <h3 hx-get="{% url 'all posts' user.id %}" hx-target=".profile__requests" hx-trigger="click" hx-swap="outerHTML" @click="section = 'posts'" :class="section == 'posts' ? 'active-tab' : ''" class="cursor-pointer text-sm text-gray-700 px-4 py-1 ml-3 mb-2">All posts</h3>
+            <h3 @click="section = 'statistics'" :class="section == 'statistics' ? 'active-tab' : ''" class="text-sm cursor-pointer text-gray-700 px-4 py-1 ml-3 mb-2">Statistics</h3>
+            <h3 @click="section = 'requests'" :class="section == 'requests' ? 'active-tab' : ''" hx-get="{% url 'friend requests' profile.profile_of.id %}" hx-target=".profile__posts" hx-trigger="click" hx-swap="outerHTML" class="text-sm cursor-pointer text-gray-700 relative px-4 py-1 ml-3 mb-2">
+                {% if requests_count != 0 %}
+                <p class="rounded-full bg-red-400 font-semibold text-red-50 px-1.5 absolute -top-1 -right-1.5">{{ requests_count }}</p>
+                {% endif %}
+                Friend requests
+            </h3>
+        </div>
+        {% else %}
+        <div class="flex gap-3 items-center">
+            <h3 class="cursor-pointer text-sm text-gray-700 px-4 py-1 ml-3 mb-2">All posts</h3>
+        </div>
+        {% endif %}
+        {% include './profile-posts.html' %}
     </div>
 </div>

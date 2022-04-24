@@ -8,3 +8,4 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile(profile_of = instance)
         profile.save()
+        profile.friends.add(instance)

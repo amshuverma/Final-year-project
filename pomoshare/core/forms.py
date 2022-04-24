@@ -1,7 +1,7 @@
 from dataclasses import field
 from django import forms
-from allauth.account.forms import SignupForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from allauth.account.forms import SignupForm, LoginForm
+from django.contrib.auth.forms import UserCreationForm
 from .models import ModifiedUserModel
 
 
@@ -35,6 +35,11 @@ class CustomSignupForm(SignupForm):
         user = super(CustomSignupForm, self).save(request)
         user.first_name = self.cleaned_data.get('full_name').split()[0]
         user.last_name = self.cleaned_data.get('full_name').split()[1]
+        user.full_name = self.cleaned_data.get('full_name')
         user.save()
         return user
+
+
+class CustomLoginForm(LoginForm):
+    field_order = ['email', 'password']
 

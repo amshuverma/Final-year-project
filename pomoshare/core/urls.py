@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import (homepage, leaderboard, friends, 
+from .views import (friend_requests, homepage, leaderboard, friends, 
                     unfriend, search_friends, like_unlike, 
-                    post_details, post_list, post_comment, 
-                    profile, get_pomodoro_time, pomodoro_complete,
-                    friend_profile, send_friend_request, register, login)
+                    post_details, post_list, post_comment, get_pomodoro_time, pomodoro_complete,
+                    friend_profile, send_friend_request, friend_requests, 
+                    accept_friend_request ,register, login, all_posts)
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,9 +26,12 @@ urlpatterns = [
     path('friends/search/', search_friends, name="search-friends"),
     path('unfriend/<int:pk>/', unfriend, name="unfriend"),
     path('add-friend/<int:pk>/', send_friend_request, name="send-request"),
+    path('friends/accept/<int:pk>/', accept_friend_request, name="accept-request"),
 
-    path('profile/self/', profile, name="self profile"),
+    # path('profile/self/', profile, name="self profile"),
     path('profile/<int:pk>/', friend_profile, name="friend profile"),
+    path('profile/friend-requests/<int:pk>/', friend_requests, name="friend requests"),
+    path('profile/all-posts/<int:id>/', all_posts, name="all posts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ajax_urlpatterns = [

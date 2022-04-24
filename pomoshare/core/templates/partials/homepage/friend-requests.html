@@ -1,0 +1,9 @@
+<section class="profile__requests">
+    {% if requests %}
+    {% for request in requests %}
+    {% friend-request id=request.id first_name=request.sender.first_name last_name=request.sender.last_name image_url=request.sender.profile.image.url %}
+    {% endfor %}
+    {% else %}
+        <div class="mt-20 flex-center text-2xl opacity-30 text-primary">You don't have any friend requests.</div>
+    {% endif %}
+</section>

@@ -188,6 +188,7 @@ LOGIN_REDIRECT_URL = '/'
 # Additional configuration settings
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_SIGNUP_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
@@ -207,3 +208,5 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 ACCOUNT_FORMS = {'signup': 'core.forms.CustomSignupForm'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

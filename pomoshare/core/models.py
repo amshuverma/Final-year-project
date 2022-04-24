@@ -16,7 +16,7 @@ class ModifiedUserModel(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=100, blank=True, null=True)
     full_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField( verbose_name='Email address', max_length=100, unique=True)
-    username = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -30,6 +30,10 @@ class ModifiedUserModel(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    # def save(self, *args, **kwargs):
+    #     self.full_name = self.first_name + " " + self.last_name
+    #     super().save(*args, **kwargs)
 
     @property   
     def get_fullname(self):
@@ -57,7 +61,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=200, blank=True, null=True)
     age = models.CharField(max_length=200, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=300, blank=True, null=True)
+    status = models.CharField(max_length=300, blank=True, null=True, default="Hi there, I'm new to pomoshare.")
     image = models.ImageField(default='profile pictures/Avatar-13.png', upload_to='profile pictures/')
     pomodoro_minutes = models.PositiveSmallIntegerField(default=24, validators=[MaxValueValidator(59)], blank=False, null=False)
     pomodoro_seconds = models.PositiveSmallIntegerField(default=59, validators=[MaxValueValidator(59)], blank=False, null=False)
@@ -77,7 +81,7 @@ class Profile(models.Model):
         return self.friends.all()
     
     def get_friends_no(self):
-        return self.friends.count()
+        return self.friends.count() - 1
 
     @property
     def get_full_name(self):
