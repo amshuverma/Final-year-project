@@ -1,7 +1,6 @@
 {% extends '../Authentication/auth-base.html' %}
 {% load widget_tweaks %}
 {% load account socialaccount %}
-{% get_providers %}
 {% block title %}
     <title>Login</title>
 {% endblock title %}
@@ -37,6 +36,9 @@
         <div class="flex gap-1 items-center mt-6">
             <p class="form-label text-sm">Don't have an account?</p>
             <a href="{% url 'account_signup' %}" class="cursor-pointer font-semibold px-2 py-0.5 hover:drop-shadow-none border-2 text-white drop-shadow-btn-small rounded-full border-btn-shadow bg-btn transition hover:translate-y-0.5 text-xs leaderboard__see-all">Register</a>
+        </div>
+        <div class="mt-2 text-sm bg-btn rounded-full border-2 border-btn-shadow text-white px-4 py-1">
+            <a href="{% url 'account_reset_password' %}">Reset password</a>
         </div>
     </div>
 {% endblock content %}

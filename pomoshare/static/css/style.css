@@ -1,5 +1,9 @@
 @import url('./index.css');
 
+.check{
+    z-index: 9999999999999999;
+}
+
 
 .text-primary {
     color: var(--color-text-dark);

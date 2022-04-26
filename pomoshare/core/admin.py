@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Profile, Post, ModifiedUserModel, Comments, FriendRequest
+from .models import Profile, Post, ModifiedUserModel, Comments, FriendRequest, BlockedWebsites
 
+
+admin.site.register(BlockedWebsites)
 admin.site.register(ModifiedUserModel)
 admin.site.register(Profile)
 admin.site.register(Post)

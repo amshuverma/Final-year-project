@@ -1,5 +1,5 @@
 {% include '../../../partials/homepage/delete-modal.html' %}
-<div class="flex gap-1 mt-0.5 ">
+<div @{{id}}.window='$el.remove()' class="flex gap-1 mt-0.5">
     <div class="h-10 w-10 place-self-start mr-2">
         <img class="h-10 w-10 rounded-full" src="{{ image }}" alt="">
     </div>
@@ -8,8 +8,10 @@
         <p class="text-sm text-gray-600 font-normal">
             {{ comment }}
         </p>
-        <div class="comment-context hidden mt-2 gap-2 group-hover:flex">
-            <p x-on:click="data.overlay = true, data.deleteModal = true" class="text-xs cursor-pointer hover:text-red-600 font-semibold">Delete</p>
+        {% if request.user != comment_author %}
+        <div x-on:click="data.overlay = true, data.deleteModal = true, commentId = '{{ id }}'" class="comment-context hidden mt-2 gap-2 group-hover:flex">
+            <p class="text-xs cursor-pointer hover:text-red-600 font-semibold">Delete</p>
         </div>
+        {% endif %}
     </div>
 </div>

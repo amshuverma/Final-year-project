@@ -1,20 +1,18 @@
-from contextlib import redirect_stderr
-from http.client import ACCEPTED
-from multiprocessing import context
-import re
-from telnetlib import STATUS
+from turtle import title, width
+import plotly.express as px
+from django_countries import countries
 from django.shortcuts import render, redirect
-from core.choices import hello, TASKS_DICT
+from core.choices import TASKS_DICT
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from .forms import NewUserCreationForm
+from .forms import NewUserCreationForm, UpdateProfileForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import ModifiedUserModel, Post, Profile, FriendRequest, Notification, Comments
-from django.db.models import Sum, Aggregate, Q
+from .models import BlockedWebsites, ModifiedUserModel, Post, FriendRequest, Notification, Comments
+from django.db.models import Sum, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-import datetime
+from datetime import datetime, timedelta
 import json
 
 
@@ -140,6 +138,41 @@ def post_comment(request, id):
             return render(request, 'components/homepage/post-details/post-comment-wrapper.html', context)
 
 
+def add_site(request):
+    site = request.POST.get('comment')
+    site = site.strip().lower()
+    user = request.user
+    BlockedWebsites.objects.create(blocked_by = user, blocked_site = site)
+    if request.htmx:
+        blockedsites = user.sites.all()
+        context={'blockedsites': blockedsites}
+        return render(request, 'partials/homepage/container-block-websites.html', context)
+
+
+def remove_site(request, id):
+    site = get_object_or_404(BlockedWebsites, pk=id)
+    user = request.user
+    site.delete()
+    if request.htmx:
+        blockedsites = user.sites.all()
+        context={'blockedsites': blockedsites}
+        return render(request, 'partials/homepage/container-block-websites.html', context)
+
+
+def blocked_sites_tab(request):
+    user = request.user
+    if request.htmx:
+        blockedsites = user.sites.all()
+        context={'blockedsites': blockedsites}
+        return render(request, 'partials/homepage/blocked-websites.html', context)
+
+
+def timer_tab(request):
+    context={'tasks':TASKS_DICT}
+    if request.htmx:
+        return render(request, 'partials/homepage/clock.html', context)
+
+
 def leaderboard(request, **kwargs):
     start_time = timezone.now().replace(hour=0, minute=0, second=0)
     country=kwargs.get('country')
@@ -220,8 +253,15 @@ def like_unlike(request, pk):
 def friend_profile(request, pk):
     user = get_object_or_404(ModifiedUserModel, pk=pk)
     self_ = request.user
-    print(user)
+    form = UpdateProfileForm
     if user:
+        if request.method == "POST":
+            form = form(request.POST)
+            if form.is_valid():
+                self_.profile.status = form.cleaned_data['status']
+                self_.profile.country = dict(countries)[form.cleaned_data['country']]
+                self_.profile.save()
+                return redirect('friend profile', pk)
         status = ''
         posts = user.posts.all()
         post_count = user.posts.count()
@@ -241,7 +281,7 @@ def friend_profile(request, pk):
             status = 'self'
         context={'user': user, 'posts': posts, 'profile': profile, 'user_id':user.id,
             'post_count': post_count, 'friends_count': friends_count, 
-            'streak': streak, 'status': status, 'requests_count':friend_requests_count}
+            'streak': streak, 'status': status, 'requests_count':friend_requests_count, 'form': UpdateProfileForm}
         if request.htmx:
             return render(request, 'partials/homepage/profile.html', context)
         return render(request, 'pages/profile.html', context)
@@ -286,6 +326,22 @@ def friend_requests(request, pk):
         return render(request, 'partials/homepage/friend-requests.html', context)
 
 
+def statistics(request):
+    user = request.user
+    time_vs_task_qset = user.posts.values('task').annotate(total_time=Sum('time_in_seconds')/60)
+    fig = px.pie(
+        names = [value['task'] for value in time_vs_task_qset],
+        values = [value['total_time'] for value in time_vs_task_qset],
+        color_discrete_sequence=px.colors.sequential.RdBu,
+        title='Time spent in each task'
+    )
+    print(dir(fig))
+    chart = fig.to_html()
+    context = {'chart': chart}
+    if request.htmx:
+        return render(request, 'partials/homepage/statistics.html', context)
+
+
 def all_posts(request, id):
     user = get_object_or_404(ModifiedUserModel, pk=id)
     posts = user.posts.all()
@@ -310,9 +366,18 @@ def accept_friend_request(request, pk):
         return render(request, 'partials/homepage/friend-requests.html', context)
 
 
-def update_profile(self):
-    pass
+def comment_delete(request):
+    data = json.loads(request.body)
+    Comments.objects.get(pk=data['pk']).delete()
+    return JsonResponse({'Success': 'True'}, status=200)
 
+
+def sites_to_localstorage(request):
+    user = request.user
+    sites = user.sites.all()
+    site_array = [site.blocked_site for site in sites]
+    site_json = json.dumps(site_array)
+    return JsonResponse({'data': site_json}, status=200)
     
 
 

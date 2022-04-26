@@ -1,3 +1,4 @@
+{% include './update-profile.html' %}
 <div class="main__content w-[43rem] mt-5 flex flex-col items-center">
     <div class="w-[42rem] shadow-custom ">
         <div class="bg-primary rounded-t-2xl h-32">
@@ -13,11 +14,13 @@
                         <div class="flex mt-0.5 gap-5">
                             <h4 class="text-gray-500 text-xs">@{{ user.username }}</h4>
                         </div>
-                        <p class="text-gray-600 mt-3 text-md max-w-sm">
+                        <p class="text-gray-600 mt-3 max-h-32 text-md w-[16rem]">
                             {{ user.profile.status }}
                         </p>
+
                     </div>
                 </div>
+                <div class="flex flex-col mt-2">
                 <div class="align-self-end mt-4">
                     {% if status == "friend" %}
                         {% friend-remove id=user.id %}
@@ -26,14 +29,15 @@
                     {% elif status == "not friend" %}
                         {% friend-add id=user.id %}
                     {% elif status == "self" %}
-                        
+                    {% #button click='data.updateProfileModal = true'%} Update profile {% /button %}
                     {% endif %}
                 </div>
+                </div>
             </section>
-            <section class="flex gap-5 mt-11 pb-6">
+            <section class="flex gap-5 justify-center mt-11 pb-6">
+                {% info-pill number=profile.country emoji="🌍" %}
                 {% info-pill text='Streak' number=streak emoji="⚡️" %}
                 {% info-pill text='Friends' number=friends_count emoji="👬" %}
-                {% info-pill text='Leaderboard crown' number=1 emoji="👑" %}
                 {% info-pill text='Posts' number=post_count emoji="⏰" %}
             </section>
         </div>
@@ -42,7 +46,7 @@
         {% if status == 'self' %}
         <div class="flex gap-3 items-center">
             <h3 hx-get="{% url 'all posts' user.id %}" hx-target=".profile__requests" hx-trigger="click" hx-swap="outerHTML" @click="section = 'posts'" :class="section == 'posts' ? 'active-tab' : ''" class="cursor-pointer text-sm text-gray-700 px-4 py-1 ml-3 mb-2">All posts</h3>
-            <h3 @click="section = 'statistics'" :class="section == 'statistics' ? 'active-tab' : ''" class="text-sm cursor-pointer text-gray-700 px-4 py-1 ml-3 mb-2">Statistics</h3>
+            <h3 @click="section = 'statistics'" :class="section == 'statistics' ? 'active-tab' : ''" hx-get="{% url 'statistics' %}" hx-target=".profile__posts" hx-trigger="click" hx-swap="outerHTML" class="text-sm cursor-pointer text-gray-700 px-4 py-1 ml-3 mb-2">Statistics</h3>
             <h3 @click="section = 'requests'" :class="section == 'requests' ? 'active-tab' : ''" hx-get="{% url 'friend requests' profile.profile_of.id %}" hx-target=".profile__posts" hx-trigger="click" hx-swap="outerHTML" class="text-sm cursor-pointer text-gray-700 relative px-4 py-1 ml-3 mb-2">
                 {% if requests_count != 0 %}
                 <p class="rounded-full bg-red-400 font-semibold text-red-50 px-1.5 absolute -top-1 -right-1.5">{{ requests_count }}</p>
@@ -55,6 +59,6 @@
             <h3 class="cursor-pointer text-sm text-gray-700 px-4 py-1 ml-3 mb-2">All posts</h3>
         </div>
         {% endif %}
-        {% include './profile-posts.html' %}
+            {% include './profile-posts.html' %}
     </div>
 </div>

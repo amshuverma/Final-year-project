@@ -1,5 +1,5 @@
 {% load static %}
-<div class="post w-full shadow-custom rounded-2xl bg-white px-10 flex flex-col">
+<div x-ref="ref" x-data="{commentId: ''}" class="post w-full shadow-custom rounded-2xl bg-white px-10 flex flex-col">
     <div class="flex flex-col justify-center">
         <div class="flex justify-between items-start mt-2">
             <div class="username__and__image mb-2  flex items-center w-full">
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="flex flex-col w-full mt-6 overflow-auto">
-        {% post-comment-wrapper comments=comments username=username %}
+        {% post-comment-wrapper id=id comments=comments username=username %}
     </div>
     {% post-comment-input id=id %}
 </div>

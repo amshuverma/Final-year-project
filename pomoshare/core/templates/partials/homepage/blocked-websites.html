@@ -1,0 +1,7 @@
+<div class="blocked-sites flex justify-center items-center flex-col gap-3 w-full">
+    {% include './container-block-websites.html' %}
+    <div class="flex gap-3 w-96 mt-7">
+        <input x-ref="siteInputBox" name="comment" class="site-input rounded-xl bg-pomodoro-3 border-pomodoro-2 border-2 w-72 h-[3.3rem]" type="text" placeholder="Eg: www.facebook.com" value={{value}}>
+        <div x-on:click="setTimeout(() => ($refs.siteInputBox.value = ''), 300), setTimeout(() => ($dispatch('addedsites')), 300)" hx-include=".site-input" hx-post="{% url 'add site' %}" hx-swap="outerHTML" hx-target=".blocked-sites-container" hx-trigger="click" class="py-2 px-6 flex-center rounded-xl cursor-pointer text-white bg-btn border-2 border-btn-shadow drop-shadow-btn-large btn-hover">Add</div>
+    </div>
+</div>

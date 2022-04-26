@@ -1,0 +1,83 @@
+<div class="timer flex-col flex-center gap-4">
+
+    <div class="clock flex justify-center mt-8">
+        <div class="relative flex pomodoro__box-main w-[134px] h-[134px]">
+            <div class="pomodoro__box-middle w-[128px] h-[128px] left-[3px] -top-1.5 absolute opacity-60">
+
+            </div>
+            <div class="pomodoro__box-top w-[122px] h-[122px] left-[6px] absolute -top-3 opacity-40">
+
+            </div>
+            <div x-text="pomodoro.time.minutes" class="text-5xl pomodoro__minutes z-50 flex  w-[134px] h-[134px] justify-center items-center justify-self-center">
+                {% comment %} <input x-on:blur="validateMinutes(), pomodoro.init()" class="pomodoro__box-input-minutes pomodoro__box-input text-right pr-5 w-[120px] h-[120px]" type="text" x-bind:value="pomodoro.time.minutes" max="60" > {% endcomment %}
+              </div>
+        </div>
+
+        <div class="pomodoro__box-divider text-[45px] h-[122px] px-2 flex justify-center items-center">
+            :
+        </div>
+
+        <div class="relative flex pomodoro__box-main w-[134px] h-[134px]">
+            <div class="pomodoro__box-middle w-[128px] h-[128px] left-[3px] -top-1.5 absolute opacity-60">
+
+            </div>
+            <div class="pomodoro__box-top w-[122px] h-[122px] left-[6px] absolute -top-3 opacity-40">
+
+            </div>
+            <div x-text="pomodoro.time.seconds" class="text-5xl pomodoro__seconds z-50 flex  w-[134px] h-[134px] justify-center items-center justify-self-center">
+              </div>
+        </div>
+    </div>
+
+    <div class="flex w-full -mt-1.5 gap-32 opacity-70 justify-center items-center text-xs">
+        <span>
+            Minutes
+        </span>
+        <span>
+            Seconds
+        </span>
+    </div>
+
+    <!-- Task selection -->
+
+    <div class="mt-3 flex flex-col justify-center items-center ">
+        <p class="">Select a task</p>
+
+        <div class="mt-4 flex px-3 justify-center gap-x-2.5 gap-y-3 items-center flex-wrap">
+
+
+            <!-- Individual Task -->
+            {% for key, value in tasks.items %}
+            <label for="{{ key }}">
+                <input type="radio" id="{{ key }}" class="task__radio-btn" name="task" checked>
+                <span class="task px-4 py-1 relative text-sm rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="absolute -top-[5px] -right-[5px]" width="18" height="18" viewBox="0 0 27 27">
+                        <g id="Group_149" data-name="Group 149" transform="translate(-1170 -625)">
+                          <g id="Ellipse_26" data-name="Ellipse 26" transform="translate(1170 625)" fill="#5d815e" stroke="#5d815d" stroke-width="3">
+                            <circle cx="13.5" cy="13.5" r="13.5" stroke="none"/>
+                            <circle cx="13.5" cy="13.5" r="12" fill="none"/>
+                          </g>
+                          <path id="Path_58" data-name="Path 58" d="M5,12.571l3.714,3.714L18,7" transform="translate(1172 626.714)" fill="none" stroke="#f7f6ed" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </g>
+                      </svg>
+                      {{ value }} {{ key }}
+                </span>
+            </label>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- Start Button -->
+
+    <div x-on:click="pomodoro.started? pomodoro.pausePomodoro() : pomodoro.startPomodoro()" :class="pomodoro.started? 'pomodoro__start-pressed translate-y-1' : 'pomodoro__start'" class="cursor-pointer transform duration-500 mt-6 py-4 px-28 flex gap-2 items-center justify-center rounded-lg">
+            <p class="text-md" x-text="pomodoro.started? 'Pause Pomodoro' : 'Start Pomodoro'"></p>
+    </div>
+
+    <div class="flex mt-5 text-sm justify-center items-center">
+        <p>*Click <span x-on:click="data.changeTimeModal = true" class="bg-btn text-sm border-2 border-btn-shadow rounded-full btn-hover cursor-pointer drop-shadow-btn-small px-2 py-0.5 text-white">here</span> to change the timer.</p>
+    </div>
+</div>
+
+
+{% comment %} {% endcomment %}

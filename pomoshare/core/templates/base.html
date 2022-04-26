@@ -1,6 +1,7 @@
 {% load mathfilters %}
 {% load tailwind_tags %}
 {% load custom_tags %}
+{% load account %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +11,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.5"></script>
     <script src="https://unpkg.com/htmx.org@1.7.0"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/friends.css' %}">
     <title>Pomoshare</title>
 </head>
-<body class="relative">
+<body class="relative" x-data = "{data: '', pomodoro:pomodoro()}" x-init="data = modal(), pomodoro.init()">
 
     <!-- Navigation bar -->
     <nav x-data = "{dropdown: false, nav: 'home'}" class="main__nav sticky top-0 shadow-sm left-0 flex justify-center items-center py-4 gap-[10rem] h-[64px] w-full">
@@ -51,9 +53,30 @@
             event.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";
         })
     </script>
+    <script>
+        window.addEventListener('addedsites', () => {
+            alert('hi')
+            fetch('/get-blocked-websites/')
+            .then(response => response.json())
+            .then(data => {
+                const newData = JSON.stringify(data)
+                localStorage.setItem('pomoshare-sites', newData)
+            })
+        })
+        window.addEventListener('load', () => {
+            localStorage.setItem('hello', 'hi')
+            alert('hi')
+            fetch('/get-blocked-websites/')
+            .then(response => response.json())
+            .then(data => {
+                const newData = JSON.stringify(data)
+                localStorage.setItem('pomoshare-sites', newData)
+            })
+        })
+    </script>
     <script src="{% static 'js/homepage/pomodoro.js' %}"></script>
     <script src="{% static 'js/homepage/modal.js' %}"></script>
     <script src="{% static 'js/homepage/getCookie.js' %}"></script>
     <script src="{% static 'js/homepage/checkAjax.js' %}"></script>
-</body>
+    <script src="{% static 'js/homepage/deleteComment.js' %}"></script>
 </html>

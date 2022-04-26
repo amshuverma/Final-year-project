@@ -1,0 +1,16 @@
+<section x-transition x-cloak x-show="data.changeTimeModal" class="overlay absolute top-0 left-0 h-full w-full flex justify-center items-center">
+    <div @click.away="data.changeTimeModal = false" class="delete__modal py-8 px-8 bg-pomodoro-1 border-2 border-pomodoro-2 items-center absolute rounded-xl">
+        <div class="flex-center gap-3 items-center mb-3">
+            <div class="flex-center flex-col gap-2">
+                <input name="minutes" class="rounded-lg border-2 border-pomodoro-2 bg-pomodoro-3 w-16 h-16" type="text">
+                <label class="text-xs mt-1" for="minutes">Minutes</label>
+            </div>
+            <span class="-mt-2">:</span>
+            <div class="flex-center flex-col gap-2">
+                <input name="seconds" class="rounded-lg border-2 border-pomodoro-2 bg-pomodoro-3 w-16 h-16" type="text">
+                <label class="text-xs mt-1" for="seconds">Seconds</label>
+            </div>
+        </div>
+        {% #button %} Change time {% /button %}
+    </div>
+</section>

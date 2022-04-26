@@ -1,7 +1,9 @@
 from dataclasses import field
+from email.policy import default
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm
 from django.contrib.auth.forms import UserCreationForm
+from django_countries.fields import CountryField
 from .models import ModifiedUserModel
 
 
@@ -42,4 +44,9 @@ class CustomSignupForm(SignupForm):
 
 class CustomLoginForm(LoginForm):
     field_order = ['email', 'password']
+
+
+class UpdateProfileForm(forms.Form):
+    status = forms.CharField(max_length=200, widget=forms.Textarea)
+    country = CountryField(blank_label='Select country').formfield(default="US")
 

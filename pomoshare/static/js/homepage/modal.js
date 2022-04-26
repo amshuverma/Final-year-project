@@ -6,5 +6,7 @@ function modal(){
         sure: false,
         overlay: false,
         deleteModal: false,
+        updateProfileModal: false,
+        changeTimeModal: false,
     }
 }

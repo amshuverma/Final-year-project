@@ -1,0 +1,19 @@
+{% load widget_tweaks %}
+<section x-transition x-cloak x-show="data.updateProfileModal" class="overlay absolute top-0 left-0 h-full w-full flex justify-center items-center">
+    <div class="border-2 relative border-pomodoro-2 bg-pomodoro-1 px-10 py-12 rounded-xl">
+        {% close-button click="data.updateProfileModal = false" position="absolute top-3 right-3 mb-2" %}
+        <form action="" method="POST">
+            <h2 class="mb-7 text-gray-800">Update profile</h2>
+            {% csrf_token %}
+            <div class="mb-4">
+                <p class="text-[0.8rem] form-label">Country</p>
+                {% render_field form.country class="text-input placeholder-opacity-40 placeholder-form-label" type="dropdown" selected="Nepal"%}
+            </div>
+            <div class="mb-4">
+                <p class="text-[0.8rem] form-label">Status</p>
+                {% render_field form.status class="text-input h-20 placeholder-opacity-40 placeholder-form-label" type="textarea"%}
+            </div>
+            {% #button type="submit" %} Update profile {% /button %}
+        </form>
+    </div>
+</section>

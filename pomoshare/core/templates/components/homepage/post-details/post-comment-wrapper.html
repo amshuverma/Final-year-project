@@ -2,7 +2,7 @@
     {% if comments %}
     <p class="font-normal text-xs mb-3">Comments</p>
         {% for comment in comments %}
-            {% post-comment username=comment.commented_by.username comment=comment.comment image=comment.commented_by.profile.image.url %}
+            {% post-comment post_id=id id=comment.id comment_author=comment.commented_by username=comment.commented_by.username comment=comment.comment image=comment.commented_by.profile.image.url %}
         {% endfor %}
     {% else %}
         <div class="px-5  h-full w-full flex flex-col justify-center items-center text-center">

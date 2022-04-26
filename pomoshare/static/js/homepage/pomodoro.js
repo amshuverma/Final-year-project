@@ -66,6 +66,7 @@ function pomodoro(){
         init(){
             this.getData().then(() => {
                 this.started = false;
+                this.firstSession = true;
                 this.time.totalTime = (parseInt(this.time.minutes) * 60) + parseInt(this.time.seconds);
 
                 this.defTime.minutes = parseInt(this.time.minutes);
